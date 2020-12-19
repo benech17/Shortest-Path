@@ -16,9 +16,15 @@ void putHeader(FILE * filePNG){
 
 void createPNG(char * filename, T_graphMD * g, int trace) {
   
-  FILE * filePNG;
+  FILE * filePNG = NULL;
 
-  filePNG = fopen(filename, "w+");
+  char fileNameComplet[150] = "";
+  strcat(fileNameComplet, "programme1/source/dotFiles/");
+  strcat(fileNameComplet, filename);
+  strcat(fileNameComplet, ".dot");
+
+  filePNG = fopen(fileNameComplet, "w+");
+
   putHeader(filePNG);
 
   int i, j; 
@@ -29,7 +35,7 @@ void createPNG(char * filename, T_graphMD * g, int trace) {
       if (g->mat[i][j] != INT_MAX && i != j) {
         fputs("\t", filePNG);
 
-        sprintf(number, "%d %s %d", i + 1, " -> ", j + 1);
+        sprintf(number, "%d %s %d", i, " -> ", j);
         fputs(number, filePNG);
 
         fputs(" [label = \"", filePNG);
@@ -43,8 +49,20 @@ void createPNG(char * filename, T_graphMD * g, int trace) {
   }
 
   fputs("}", filePNG);
+  system("");
 
   fclose(filePNG);
+
+  char comand[350] = "dot ";
+  strcat(comand, fileNameComplet);
+  strcat(comand, " -T png -o programme1/source/pngFiles/");
+  strcat(comand, filename);
+  strcat(comand, ".png");
+
+  printf("%s\n\n", comand);
+
+  system(comand);
+
 
 }
 
@@ -73,7 +91,14 @@ T_graphMD * readFile(char * filename) {
   T_graphMD * g;
 
   FILE * fileMatrix;
-  fileMatrix = fopen(filename, "r");
+
+  char * auxFileNameComplet = "programme1/source/" ;
+  char fileNameComplet[150];
+  strcat(fileNameComplet, auxFileNameComplet);
+  strcat(fileNameComplet, "adjFiles/");
+  strcat(fileNameComplet, filename);
+
+  fileMatrix = fopen(fileNameComplet, "r");
 
   if (fileMatrix != NULL) {
 
@@ -106,7 +131,7 @@ T_graphMD * readFile(char * filename) {
         k = 0;
         j++;
       }
-      if (val == '\n') {
+      else if (val == '\n') {
         number[k] = '\0';
         if (number[0] != 'i') 
           g->mat[i][j] = atoi(number);
@@ -121,12 +146,16 @@ T_graphMD * readFile(char * filename) {
       }
     }
 
+    g->mat[i][j] = 0;
+    
+
+    fclose(fileMatrix);
+
   }
   else {
     printf("erro\n\n");
   }
 
-  fclose(fileMatrix);
 
   return g;
 }
@@ -136,9 +165,9 @@ void showMatrix (T_graphMD * g) {
   for (i = 0; i < g->nbVertices; i++) {
     for (j = 0; j < g->nbVertices; j++) {
       if (g->mat[i][j] != INT_MAX)
-        printf("\t%d", g->mat[i][j]);
+        printf("%d", g->mat[i][j]);
       else
-        printf("\tin");
+        printf("in");
       
       if (j < g->nbVertices - 1)
         printf("\t|");

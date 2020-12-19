@@ -14,10 +14,10 @@ int main(int argc, char ** argv) {
   CLRSCR();
 	WHOAMI(); 
 
-  T_graphMD * g;
-  g = readFile("programme1/source/graph1.adj");
+  T_graphMD * g = NULL;
+  g = readFile("graph1.adj");
 
-  createPNG("programme1/source/matrixPNG", g, 2);
+  createPNG("graph1", g, 2);
 
   int * D = (int *) malloc(g->nbVertices * sizeof(int));
   int * T = (int *) malloc(g->nbVertices * sizeof(int));
