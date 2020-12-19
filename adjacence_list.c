@@ -1,18 +1,6 @@
-#include <stdlib.h>
-#include <stdio.h>
+#include "adjacence_list.h"
 
 // Complexity in O( n+m) where n is the number of nodes and m the nulber of vertices
-
-typedef struct node {
-    unsigned int vertexNumber;
-    int weight;
-    struct node* pNext;
-}T_node, *T_list;
-
-typedef struct{
-    unsigned int nbVertices;
-    T_list *tAdj;
-}T_graphLA;
 
 T_graphLA * newGraphLA (int n){
     T_graphLA* g ;
@@ -29,6 +17,7 @@ T_node* createNode (int value,int weight){
     newNode->vertexNumber = value;
     newNode->weight = weight;
     newNode->pNext =NULL;
+    return newNode;
 
 }
 void addEdge(T_graphLA* g,int s,int d,int weight){
