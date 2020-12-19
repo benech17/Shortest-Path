@@ -90,32 +90,23 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr) {
 
   while (1) {
     int k = -1;
-    int j;
 
     for (i = 0; i < g->nbVertices; i++) {
       if (T[i] == 0) {
-        int trueOrFalse = 0;
-        for (j = 0; j < g->nbVertices; j++) {
-          if (g->mat[j][i] < INT_MAX && j != i && T[j] == 0) {
-            //printf("%d %d\n", i, j);
-            trueOrFalse = 1;
-            break;
-          }
-        }
-
-        if (trueOrFalse == 0) {
+        if (k ==-1)
           k = i;
-          break;
+        else {
+          if (D[i] < D[k])
+            k = i;
         }
-        
       }
     }
 
     if (k == -1) {
 
-      printf("Error\n\n");
-      k = 2;
-      //return;
+      printf("Finish\n\n");
+      return;
+      
     }
       
     T[k] = 1;
