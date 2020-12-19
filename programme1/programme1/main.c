@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <limits.h>
 
 #include "../include/traces.h"
@@ -7,17 +8,21 @@
 #include "adjacencyMatrix.h"
 #include "treatmentFiles.h"
 
-void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr);
+void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr,  char * filename);
+void showResult(int * D, int * Pred, int src, int dst);
 
 int main(int argc, char ** argv) {
 
-  CLRSCR();
-	WHOAMI(); 
+  if (argc != 4){
+    printf("\n\t3 paramètres doivent être saisis\n\n");
+    return 0;
+  }
+
+  int sr = atoi(argv[2]);
+  int dst = atoi(argv[3]);
 
   T_graphMD * g = NULL;
-  g = readFile("graph1.adj");
-
-  createPNG("graph1", g, 2);
+  g = readFile(argv[1]);
 
   int * D = (int *) malloc(g->nbVertices * sizeof(int));
   int * T = (int *) malloc(g->nbVertices * sizeof(int));
@@ -30,61 +35,59 @@ int main(int argc, char ** argv) {
     Pred[i] = 0;
   }
 
-  showMatrix(g);
+  char * name = strtok(argv[1], ".");
 
-  courtChemie(g, D, T, Pred, 0);
+  for (i = 11; name[i] != '\0'; i++)
+    name[i - 11] = name[i];
+    
+  name [i - 11] = '\0';
+  
+
+  courtChemie(g, D, T, Pred, sr, name);
+
+  if (dst < g->nbVertices) {
+    printf("\n%d\n", D[dst]);
+    showResult(D, Pred, sr, dst);
+    NL();
+  }
+  else 
+    printf("This is impossible");
+
+  NL();
 
   return 0;
 }
 
-void showVectors(int * D, int * T, int * Pred, int n) {
+void showResult(int * D, int * Pred, int src, int dst) {
 
-  int i;
-
-  NL();
-  printf("D: ");
-  for (i = 0; i < n; i++) {
-    if (D[i] != INT_MAX)
-      printf("%d ", D[i]);
-    else
-      printf("inf ");
+  if (dst != src) {
+    showResult(D, Pred, src, Pred[dst]);
+    printf (" -> %d", dst);
   }
-  NL();
-
-  printf("T: ");
-  for (i = 0; i < n; i++) {
-    printf("%d ", T[i]);
-  }
-  NL();
-
-  printf("Pred: ");
-  for (i = 0; i < n; i++) {
-    printf("%d ", Pred[i]);
-  }
-  NL(); NL();
-
+  else 
+    printf("%d", src);
+  
 }
 
-void compareIten(T_graphMD * g, int * D, int * Pred, int x, int y) {
+void compareItem(T_graphMD * g, int * D, int * Pred, int x, int y) {
   if (D[x] + g->mat[x][y] < D[y]) {
     D[y] = D[x] + g->mat[x][y];
-    Pred[y] = x + 1;
+    Pred[y] = x;
   }
 }
 
-void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr) {
+void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * filename) {
 
   int i;
 
   for (i = 0; i < g->nbVertices; i++) {
     D[i] = g->mat[sr][i];
-    Pred[i] = (g->mat[sr][i] == INT_MAX) ? 0 : sr + 1;
+    Pred[i] = (g->mat[sr][i] == INT_MAX) ? 0 : sr;
   }
 
   T[sr] = 1;
 
-  printf("\nEtape 0: ");
-  showVectors(D, T, Pred, g->nbVertices);
+  createPNG(filename, g, 0, T);
 
   int stage = 1;
 
@@ -104,26 +107,21 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr) {
 
     if (k == -1) {
 
-      printf("Finish\n\n");
+      createPNG(filename, g, stage, T);
       return;
       
     }
       
+    createPNG(filename, g, k, T);
     T[k] = 1;
-
-    printf("Etape %d (avec %d):\n", stage, k + 1);
 
     for (i = 0; i < g->nbVertices; i++) {
       if (i != k && g->mat[k][i] < INT_MAX) {
-        compareIten(g, D, Pred, k, i);
+        compareItem(g, D, Pred, k, i);
       }
     }
 
     stage++;
-    showVectors(D, T, Pred, g->nbVertices);
-
-    ENTER2CONTINUE();
-    NL();
   }
 
 }

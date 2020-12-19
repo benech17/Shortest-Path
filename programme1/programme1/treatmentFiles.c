@@ -2,37 +2,85 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "../include/traces.h"
 #include "adjacencyMatrix.h"
 #include "treatmentFiles.h"
 
+void putColorNode(FILE * filePNG, char color) {
+
+  fputs(" [fontname=\"Arial\", shape = circle, ", filePNG);
+  if (color == 'b')
+    fputs("color=lightblue", filePNG);
+  else if (color == 'g')
+    fputs("color=green", filePNG);
+  else
+    fputs("color=red", filePNG);
+  fputs(", style=filled];\n", filePNG);
+
+}
+
 void putHeader(FILE * filePNG){
   fputs("digraph graphe {\n", filePNG);
   fputs("rankdir = LR;\n", filePNG);
-  fputs("node [fontname=\"Arial\", shape = circle, color=lightblue, style=filled];\n", filePNG);
   fputs("edge [color=red];\n", filePNG);
 }
 
-void createPNG(char * filename, T_graphMD * g, int trace) {
+#ifdef DOT_PATH
+
+void createPNG(char * filename, T_graphMD * g, int node, int * T) {
   
   FILE * filePNG = NULL;
 
   char fileNameComplet[150] = "";
-  strcat(fileNameComplet, "programme1/source/dotFiles/");
+  strcat(fileNameComplet, "programme1/output/dotFiles/");
   strcat(fileNameComplet, filename);
-  strcat(fileNameComplet, ".dot");
 
+  mkdir(fileNameComplet, 0777);
+
+  strcat(fileNameComplet, "/");
+  strcat(fileNameComplet, filename);
+
+  strcat(fileNameComplet, "_");
+
+  char auxNumber[11] = "";
+  sprintf(auxNumber, "%d", node);
+
+  strcat(fileNameComplet, auxNumber);
+
+  strcat(fileNameComplet, ".dot");
+  
   filePNG = fopen(fileNameComplet, "w+");
 
   putHeader(filePNG);
 
   int i, j; 
+
+  for (i = 0; i < g->nbVertices; i++) {
+    auxNumber[0] = '\0';
+    sprintf(auxNumber, "%d", i);
+
+    fputs(auxNumber, filePNG);
+    if (i == node) {
+      putColorNode(filePNG, 'g');
+    }
+    else if (T[i] == 1) {
+      putColorNode(filePNG, 'r');
+    }
+    else{
+      putColorNode(filePNG, 'b');
+    }
+  }
+  
   char number[26];
 
   for (i = 0; i < g->nbVertices; i++) {
+
     for (j = 0; j < g->nbVertices; j++) {
       if (g->mat[i][j] != INT_MAX && i != j) {
+        
         fputs("\t", filePNG);
 
         sprintf(number, "%d %s %d", i, " -> ", j);
@@ -55,16 +103,34 @@ void createPNG(char * filename, T_graphMD * g, int trace) {
 
   char comand[350] = "dot ";
   strcat(comand, fileNameComplet);
-  strcat(comand, " -T png -o programme1/source/pngFiles/");
-  strcat(comand, filename);
-  strcat(comand, ".png");
+  strcat(comand, " -T png -o programme1/output/pngFiles/");
 
-  printf("%s\n\n", comand);
+  char directoryPNG[150] = "programme1/output/pngFiles/";
+  strcat(directoryPNG, filename);
+  mkdir(directoryPNG, 0777);
+
+  strcat(comand, filename);
+  strcat(comand, "/");
+  strcat(comand, filename);
+  strcat(comand, "_");
+
+  auxNumber[0] = '\0';
+  sprintf(auxNumber, "%d", node);
+
+  strcat(comand, auxNumber);
+  strcat(comand, ".png");
 
   system(comand);
 
+}
+
+#else
+
+void createPNG(char * filename, T_graphMD * g, int node, int * T) {
 
 }
+
+#endif
 
 T_graphMD * newGraphMD(int n) {
   T_graphMD * g;
@@ -92,13 +158,7 @@ T_graphMD * readFile(char * filename) {
 
   FILE * fileMatrix;
 
-  char * auxFileNameComplet = "programme1/source/" ;
-  char fileNameComplet[150];
-  strcat(fileNameComplet, auxFileNameComplet);
-  strcat(fileNameComplet, "adjFiles/");
-  strcat(fileNameComplet, filename);
-
-  fileMatrix = fopen(fileNameComplet, "r");
+  fileMatrix = fopen(filename, "r");
 
   if (fileMatrix != NULL) {
 
@@ -115,8 +175,6 @@ T_graphMD * readFile(char * filename) {
         break;
       }
     }
-
-    printf("matrice: %d x %d\n\n", i, i);
 
     g = newGraphMD(i);
     i = 0;
@@ -145,8 +203,6 @@ T_graphMD * readFile(char * filename) {
         k++;
       }
     }
-
-    g->mat[i][j] = 0;
     
 
     fclose(fileMatrix);
@@ -158,23 +214,6 @@ T_graphMD * readFile(char * filename) {
 
 
   return g;
-}
-
-void showMatrix (T_graphMD * g) {
-  int i, j;
-  for (i = 0; i < g->nbVertices; i++) {
-    for (j = 0; j < g->nbVertices; j++) {
-      if (g->mat[i][j] != INT_MAX)
-        printf("%d", g->mat[i][j]);
-      else
-        printf("in");
-      
-      if (j < g->nbVertices - 1)
-        printf("\t|");
-    }
-    NL();
-  }
-  NL();
 }
 
 
