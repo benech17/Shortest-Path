@@ -16,3 +16,6 @@ T_graphLA * newGraphLA (int);
 T_node* createNode (int,int);
 void addEdge(T_graphLA*,int,int,int);
 void printGraph(T_graphLA*);
+void dumpGraph(FILE *, T_graphLA *);
+void showGraph(const char *, T_graphLA *);
+
