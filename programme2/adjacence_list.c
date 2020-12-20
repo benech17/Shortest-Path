@@ -3,6 +3,8 @@
 #include <limits.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <string.h>
+#include <ctype.h>
 
 // Complexity in O( n+m) where n is the number of nodes and m the nulber of vertices
 
@@ -27,27 +29,28 @@ T_node *createNode(int value, int weight)
   return newNode;
 }
 
-
 void addEdge(T_graphLA *g, int s, int d, int weight)
 {
   T_node *newNode = createNode(d, weight);
   // insert at the right place to have an ordered linked list
-  if (g->tAdj[s]==NULL || g->tAdj[s]->vertexNumber >= d){
+  if (g->tAdj[s] == NULL || g->tAdj[s]->vertexNumber >= d)
+  {
     //printf("\n%d\n",(int)g->tAdj[s]->vertexNumber);
     newNode->pNext = g->tAdj[s];
     g->tAdj[s] = newNode;
-  }else{
+  }
+  else
+  {
     T_node *tmp; // noeud temporaire pour parcourir la liste
-		tmp = g->tAdj[s];
-		while (tmp->pNext != NULL && tmp->pNext->vertexNumber < d)
-		{
-			tmp = tmp->pNext;
-		}
+    tmp = g->tAdj[s];
+    while (tmp->pNext != NULL && tmp->pNext->vertexNumber < d)
+    {
+      tmp = tmp->pNext;
+    }
     newNode->pNext = tmp->pNext;
     tmp->pNext = newNode;
   }
 }
-  
 
 void printGraph(T_graphLA *g)
 {
@@ -81,11 +84,11 @@ void dumpGraph(FILE *fp, T_graphLA *g)
 void writeDotGraph(const char *filename, T_graphLA *g)
 {
   // Ecrit le format dot complet (entête+structure) dans un fichier
-  mkdir("output",0777);
-  mkdir("output/dot",0777);
+  mkdir("output", 0777);
+  mkdir("output/dot", 0777);
 
   char file_name[50];
-  snprintf(file_name, sizeof(file_name), "output/dot/%s",filename);
+  snprintf(file_name, sizeof(file_name), "output/dot/%s", filename);
   FILE *fp;
   CHECK_IF(fp = fopen(file_name, "w"), NULL, "fopen");
 
@@ -101,17 +104,65 @@ void writeDotGraph(const char *filename, T_graphLA *g)
 void showGraphPNG(const char *filename, T_graphLA *g)
 {
   char file_name[50];
-  snprintf(file_name, sizeof(file_name), "%s.dot",filename);
-  writeDotGraph(file_name,g);
+  snprintf(file_name, sizeof(file_name), "%s.dot", filename);
+  writeDotGraph(file_name, g);
   char command[200];
 
-  mkdir("output/png",0777);
+  mkdir("output/png", 0777);
 
   snprintf(command, sizeof(command), "dot output/dot/%s.dot -T png -o output/png/%s.png", filename, filename);
-  printf("%s\n",command);
+  printf("%s\n", command);
   system(command);
 }
 
+int isNumber(char *token)
+{
+  for (int i = 0; i < strlen(token); i++)
+  {
+    if (!isdigit(token[i]))
+    {
+      return 0;
+    }
+  }
+  return 1;
+}
+T_graphLA *matToAdj(const char *filename)
+{
+  FILE *fp;
+  CHECK_IF(fp = fopen(filename, "r"), NULL, "fopen");
+
+  int ligne = 0, column = 0, size = 0;
+  const char *separators = "\t\n";
+  char line[100];
+
+  // Parcours le file pour connaitre nb_lignes = graph size
+  FILE *fp_copy;
+  CHECK_IF(fp_copy = fopen(filename, "r"), NULL, "fopen");
+
+  while (fgets(line, 100, fp_copy) != NULL)
+  {
+    size++;
+  }
+  T_graphLA *g = newGraphLA(size);
+
+  while (fgets(line, 100, fp) != NULL)
+  {
+    char *token = strtok(line, separators);
+    while (token != NULL)
+    {
+      if (isNumber(token) == 1 && atoi(token) != 0)
+      {
+        addEdge(g, ligne, column, atoi(token));
+      }
+      token = strtok(NULL, separators);
+      column++;
+    }
+    ligne++;
+    column = 0;
+  }
+  fclose(fp);
+  return g;
+}
 int main(void)
 {
   T_graphLA *g = newGraphLA(4);
@@ -121,7 +172,7 @@ int main(void)
   addEdge(g, 1, 2, 2);
   addEdge(g, 0, 1, 9);
 
-  printGraph(g);
+  //printGraph(g);
   //writeDotGraph("graph.dot", g);
   showGraphPNG("graph", g);
 
@@ -141,8 +192,19 @@ int main(void)
   addEdge(g2, 6, 7, 4);
   addEdge(g2, 7, 5, 18);
   addEdge(g2, 7, 8, 45);
-  printGraph(g2);
+  addEdge(g2, 1, 1, 0);
+  //printGraph(g2);
   //writeDotGraph("graph2.dot", g2);
   showGraphPNG("graph2", g2);
+
+  T_graphLA *g3 = matToAdj("graph3.adj");
+  showGraphPNG("graph3", g3);
+
+  T_graphLA *g4 = matToAdj("graph2.adj");
+  showGraphPNG("graph4", g4);
+
+  T_graphLA *g5 = matToAdj("graph1.adj");
+  showGraphPNG("graph5", g5);
+
   return 0;
 }

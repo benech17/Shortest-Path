@@ -2,6 +2,7 @@ digraph graphe {
 rankdir = LR;
 node [fontname="Arial", shape = circle, color=lightblue, style=filled];
 edge [color=red]
+	1 -> 1 [label = "0"];
 	1 -> 2 [label = "12"];
 	1 -> 6 [label = "15"];
 	1 -> 7 [label = "20"];
