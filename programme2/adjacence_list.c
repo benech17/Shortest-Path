@@ -35,7 +35,6 @@ void addEdge(T_graphLA *g, int s, int d, int weight)
   // insert at the right place to have an ordered linked list
   if (g->tAdj[s] == NULL || g->tAdj[s]->vertexNumber >= d)
   {
-    //printf("\n%d\n",(int)g->tAdj[s]->vertexNumber);
     newNode->pNext = g->tAdj[s];
     g->tAdj[s] = newNode;
   }
@@ -163,48 +162,86 @@ T_graphLA *matToAdj(const char *filename)
   fclose(fp);
   return g;
 }
+
+T_graphLA *laToAdj(const char *filename)
+{
+  FILE *fp;
+  CHECK_IF(fp = fopen(filename, "r"), NULL, "fopen");
+
+  int ligne = 0, size = 0;
+  const char *separators = "\t\n";
+  char line[100];
+
+  // Parcours le file pour connaitre nb_lignes = graph size
+  FILE *fp_copy;
+  CHECK_IF(fp_copy = fopen(filename, "r"), NULL, "fopen");
+
+  while (fgets(line, 100, fp_copy) != NULL)
+  {
+    size++;
+  }
+  T_graphLA *g = newGraphLA(size);
+
+  while (fgets(line, 100, fp) != NULL) //parcours les lignes du fichier fp
+  {
+    char *token = strtok(line, separators); // numéro de ligne
+    while (token != NULL)
+    {
+      if (!isNumber(token))
+      {
+        char *dest = strtok_r(token, "_", &token); //strtok_r est ré-entrant
+        if (isNumber(dest) && isNumber(token))
+        {
+          addEdge(g, ligne, atoi(dest), atoi(token));
+        }
+      }
+      token = strtok(NULL, separators);
+    }
+    ligne++;
+  }
+  fclose(fp);
+  return g;
+}
+
 int main(void)
 {
-  T_graphLA *g = newGraphLA(4);
-  addEdge(g, 0, 2, 3);
-  addEdge(g, 2, 3, 4);
-  addEdge(g, 3, 1, 1);
-  addEdge(g, 1, 2, 2);
-  addEdge(g, 0, 1, 9);
+  T_graphLA *g5 = newGraphLA(4);
+  addEdge(g5, 0, 2, 3);
+  addEdge(g5, 2, 3, 4);
+  addEdge(g5, 3, 1, 1);
+  addEdge(g5, 1, 2, 2);
+  addEdge(g5, 0, 1, 9);
 
   //printGraph(g);
   //writeDotGraph("graph.dot", g);
-  showGraphPNG("graph", g);
+  showGraphPNG("graph5", g5);
 
-  T_graphLA *g2 = newGraphLA(8);
-  addEdge(g2, 1, 2, 12);
-  addEdge(g2, 1, 6, 15);
-  addEdge(g2, 2, 3, 21);
-  addEdge(g2, 3, 5, 3);
-  addEdge(g2, 6, 5, 28);
-  addEdge(g2, 3, 8, 19);
-  addEdge(g2, 4, 3, 7);
-  addEdge(g2, 4, 8, 7);
-  addEdge(g2, 5, 8, 14);
-  addEdge(g2, 5, 4, 13);
-  addEdge(g2, 1, 7, 20);
-  addEdge(g2, 6, 3, 17);
-  addEdge(g2, 6, 7, 4);
-  addEdge(g2, 7, 5, 18);
-  addEdge(g2, 7, 8, 45);
-  addEdge(g2, 1, 1, 0);
-  //printGraph(g2);
-  //writeDotGraph("graph2.dot", g2);
-  showGraphPNG("graph2", g2);
-
-  T_graphLA *g3 = matToAdj("graph3.adj");
-  showGraphPNG("graph3", g3);
-
-  T_graphLA *g4 = matToAdj("graph2.adj");
+  T_graphLA *g4 = newGraphLA(8);
+  addEdge(g4, 1, 2, 12);
+  addEdge(g4, 1, 6, 15);
+  addEdge(g4, 2, 3, 21);
+  addEdge(g4, 3, 5, 3);
+  addEdge(g4, 6, 5, 28);
+  addEdge(g4, 3, 8, 19);
+  addEdge(g4, 4, 3, 7);
+  addEdge(g4, 4, 8, 7);
+  addEdge(g4, 5, 8, 14);
+  addEdge(g4, 5, 4, 13);
+  addEdge(g4, 1, 7, 20);
+  addEdge(g4, 6, 3, 17);
+  addEdge(g4, 6, 7, 4);
+  addEdge(g4, 7, 5, 18);
+  addEdge(g4, 7, 8, 45);
   showGraphPNG("graph4", g4);
 
-  T_graphLA *g5 = matToAdj("graph1.adj");
-  showGraphPNG("graph5", g5);
+  T_graphLA *g1 = laToAdj("input/la/graph1.la");
+  showGraphPNG("graph1", g1);
+
+  T_graphLA *g2 = laToAdj("input/la/graph2.la");
+  showGraphPNG("graph2", g2);
+
+  T_graphLA *g3 = laToAdj("input/la/graph3.la");
+  showGraphPNG("graph3", g3);
 
   return 0;
 }
