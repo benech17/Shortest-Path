@@ -10,6 +10,7 @@
 
 void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr,  char * filename);
 void showResult(int * D, int * Pred, int src, int dst);
+void majDijkstra(int * F, int * D, int v, int k, int * indiceDansF);
 
 int main(int argc, char ** argv) {
 
@@ -24,6 +25,7 @@ int main(int argc, char ** argv) {
   T_graphMD * g = NULL;
   g = readFile(argv[1]);
 
+  printf("%d",g->nbVertices);
   int * D = (int *) malloc(g->nbVertices * sizeof(int));
   int * T = (int *) malloc(g->nbVertices * sizeof(int));
   int * Pred = (int *) malloc(g->nbVertices * sizeof(int));
@@ -77,51 +79,51 @@ void compareItem(T_graphMD * g, int * D, int * Pred, int x, int y) {
 }
 
 void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * filename) {
-
-  int i;
-
-  for (i = 0; i < g->nbVertices; i++) {
-    D[i] = g->mat[sr][i];
-    Pred[i] = (g->mat[sr][i] == INT_MAX) ? 0 : sr;
+  int u;
+  int v;
+  int i = 1;
+  int k = 0;
+  int F[g->nbVertices];
+  int indiceDansF[g->nbVertices];
+  printf("Entré dans Dijsktra\n");
+  for(u=0;u<g->nbVertices;u++) {
+    Pred[u] = 0;
+    if(u == sr) {
+      D[u] = 0;
+      F[0] = u;
+      indiceDansF[u] = 0;
+    }
+    else {
+      D[u] = INT_MAX;
+      F[i] = u;
+      indiceDansF[u] = i;
+      i++;
+    }
   }
-
-  T[sr] = 1;
-
-  createPNG(filename, g, 0, T);
-
-  int stage = 1;
-
-  while (1) {
-    int k = -1;
-
-    for (i = 0; i < g->nbVertices; i++) {
-      if (T[i] == 0) {
-        if (k ==-1)
-          k = i;
-        else {
-          if (D[i] < D[k])
-            k = i;
+  printf("initialisation complétée\n");
+  while(k<7) {
+    u = F[k];
+    k++;
+    for(v=0;v<g->nbVertices;v++) {
+      if ((v!=u) & (g->mat[u][v] != INT_MAX)) {
+        if (D[v] > D[u] + g->mat[u][v]) {
+          D[v] = D[u] + g->mat[u][v];
+          Pred[v] = u;
+          majDijkstra(F,D,v,k,indiceDansF);
         }
       }
     }
-
-    if (k == -1) {
-
-      createPNG(filename, g, stage, T);
-      return;
-      
-    }
-      
-    createPNG(filename, g, k, T);
-    T[k] = 1;
-
-    for (i = 0; i < g->nbVertices; i++) {
-      if (i != k && g->mat[k][i] < INT_MAX) {
-        compareItem(g, D, Pred, k, i);
-      }
-    }
-
-    stage++;
   }
 
+}
+
+void majDijkstra(int * F, int * D, int v, int k, int * indiceDansF) {
+  int i = indiceDansF[v]-k;
+  int c;
+  while ((i/2 >= 1) & (D[F[i/2+k]] > F[i+k])) {
+    c = F[i+k];
+    F[i+k] = F[i/2+k];
+    F[i/2+k] = c;
+    i = i/2;
+  }
 }

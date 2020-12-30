@@ -209,7 +209,7 @@ T_graphMD * readFile(char * filename) {
 
   }
   else {
-    printf("erro\n\n");
+    printf("error\n\n");
   }
 
 
