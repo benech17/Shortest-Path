@@ -25,7 +25,7 @@ int main(int argc, char ** argv) {
   T_graphMD * g = NULL;
   g = readFile(argv[1]);
 
-  printf("%d",g->nbVertices);
+
   int * D = (int *) malloc(g->nbVertices * sizeof(int));
   int * T = (int *) malloc(g->nbVertices * sizeof(int));
   int * Pred = (int *) malloc(g->nbVertices * sizeof(int));
@@ -85,7 +85,7 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
   int k = 0;
   int F[g->nbVertices];
   int indiceDansF[g->nbVertices];
-  printf("Entré dans Dijsktra\n");
+
   for(u=0;u<g->nbVertices;u++) {
     Pred[u] = 0;
     if(u == sr) {
@@ -100,7 +100,7 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
       i++;
     }
   }
-  printf("initialisation complétée\n");
+
   while(k<7) {
     u = F[k];
     k++;
