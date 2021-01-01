@@ -101,15 +101,17 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
     }
   }
 
-  while(k<7) {
+  while(k<g->nbVertices) {
     u = F[k];
     k++;
     for(v=0;v<g->nbVertices;v++) {
       if ((v!=u) & (g->mat[u][v] != INT_MAX)) {
         if (D[v] > D[u] + g->mat[u][v]) {
+
           D[v] = D[u] + g->mat[u][v];
           Pred[v] = u;
           majDijkstra(F,D,v,k,indiceDansF);
+
         }
       }
     }
@@ -120,10 +122,15 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
 void majDijkstra(int * F, int * D, int v, int k, int * indiceDansF) {
   int i = indiceDansF[v]-k;
   int c;
-  while ((i/2 >= 1) & (D[F[i/2+k]] > F[i+k])) {
+  while (((i/2) >= 1) && (D[F[(i/2)+k]] > D[F[i+k]])) {
+
     c = F[i+k];
-    F[i+k] = F[i/2+k];
-    F[i/2+k] = c;
+    F[i+k] = F[(i/2)+k];
+    F[(i/2)+k] = c;
+
+    indiceDansF[F[i+k]] = i+k;
+    indiceDansF[F[(i/2)+k]] = (i/2)+k;
+
     i = i/2;
   }
 }
