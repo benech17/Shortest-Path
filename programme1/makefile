@@ -1,25 +1,20 @@
-TARGETS=$(shell ls -d programme*)
-CLEANTARGETS=$(foreach dir,$(TARGETS),clean_$(dir))
+PWD=$(shell pwd)
+REP=$(shell basename $(PWD))
+SOURCES=$(shell cat makefile_sources)
+CIBLE=$(REP).exe
+CFLAGS=-Wall
 
-all: 
-	@echo "Veuillez choisir une cible parmi : $(TARGETS)"
-	@echo "Les exécutables seront produits dans les sous-répertoires correspondants"
-	@echo "Le bouton \"Run\" de l'interface de Repl.it ne doit pas etre utilisé"
-	@echo "N'oubliez pas d'exécuter la commande source setup_env.sh"
+# makefile générique pour produire un code source 
+# dont le nom correspond au nom du répertoire qui le contient
 
-.PHONY: $(TARGETS)
-$(TARGETS) :
-	@echo Execution de make $@ :
-	@cd $@; make
+all: $(CIBLE)
+	@echo "Le programme $(CIBLE) a été produit dans le répertoire $(REP)"
 
-$(CLEANTARGETS) : 
-	@echo Execution de clean $(subst clean_,,$@) :
-	@cd $(subst clean_,,$@); make clean
+$(CIBLE) : $(SOURCES)
+	@echo -n "Production de $(CIBLE)"
+	@echo " à partir des fichiers : $(SOURCES)"
+	gcc $(CFLAGS) $(SOURCES) -o $@
 
-clean: $(CLEANTARGETS)
-
-tout: 
-	@echo "Vous n'avez pas autre chose à faire que chercher des easter eggs dans un makefile ?"	
-
-toutout: $(TARGETS)
-
+clean: 
+	@echo "Nettoyage de $(CIBLE)"
+	@rm -rf $(CIBLE)
