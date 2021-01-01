@@ -40,7 +40,7 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage) {
 
   sprintf(fileNameComplet, "output/dotFiles/%s", filename);
 
-  mkdir(fileNameComplet, 0777);
+  mkdir(fileNameComplet, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
   sprintf(fileNameComplet, "output/dotFiles/%s/%s_%d.dot", filename, filename, stage);
   

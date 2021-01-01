@@ -113,6 +113,8 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
     }
   }
 
+  createPNG(filename, g, -1, T, k);
+
 }
 
 void majDijkstra(int * F, int * D, int v, int k, int * indiceDansF) {
