@@ -102,10 +102,10 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
       createPNG(filename, g, u, T, k);
     }
     k++;
-    for(v=0;v<g->nbVertices;v++) {
-      if ((v!=u) && (g->mat[u][v] != INT_MAX)) {
+    if (D[u] != INT_MAX) {
+      for(v=0;v<g->nbVertices;v++) {
+        if ((v!=u) && (g->mat[u][v] != INT_MAX) && (D[v] > D[u] + g->mat[u][v])) {
 
-        if ((D[v] > D[u] + g->mat[u][v]) && (D[u] != INT_MAX)) {
           D[v] = D[u] + g->mat[u][v];
           Pred[v] = u;
           majDijkstra(F,D,v,k,indiceDansF);
