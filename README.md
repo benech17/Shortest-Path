@@ -1,4 +1,8 @@
 # Shortest-Path
+Make sure to have the ffmpeg library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
+
+>sudo apt-get install ffmpeg  
+
 ## Programme 1
 To be completed
 ## Programme 2

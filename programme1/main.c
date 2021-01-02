@@ -115,6 +115,16 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
 
   createPNG(filename, g, -1, T, k);
 
+  // create a video of successive generated PNG files
+  char fileNameComplet[150] = "";
+  sprintf(fileNameComplet, "output/pngFiles/%s/%s", filename, filename);
+
+  char command[300]="";
+  sprintf(command,"ffmpeg -r 1 -s 1920x1080 -i %s_%%1d.png -vcodec libx264 -crf 25 -y -loglevel quiet  %s.mp4",fileNameComplet,fileNameComplet);
+  
+  system(command);
+  
+
 }
 
 void majDijkstra(int * F, int * D, int v, int k, int * indiceDansF) {
