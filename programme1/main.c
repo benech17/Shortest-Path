@@ -81,7 +81,7 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
   int indiceDansF[g->nbVertices];
 
   for(u=0;u<g->nbVertices;u++) {
-    Pred[u] = 0;
+    Pred[u] = -1;
     if(u == sr) {
       D[u] = 0;
       F[0] = u;
@@ -97,13 +97,15 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
 
   while(k<g->nbVertices) {
     u = F[k];
-    T[u] = 1;
-    createPNG(filename, g, u, T, k);
+    if (D[u] != INT_MAX) {
+      T[u] = 1;
+      createPNG(filename, g, u, T, k);
+    }
     k++;
     for(v=0;v<g->nbVertices;v++) {
-      if ((v!=u) & (g->mat[u][v] != INT_MAX)) {
-        if (D[v] > D[u] + g->mat[u][v]) {
+      if ((v!=u) && (g->mat[u][v] != INT_MAX)) {
 
+        if ((D[v] > D[u] + g->mat[u][v]) && (D[u] != INT_MAX)) {
           D[v] = D[u] + g->mat[u][v];
           Pred[v] = u;
           majDijkstra(F,D,v,k,indiceDansF);
@@ -119,7 +121,7 @@ void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * fil
   char fileNameComplet[150] = "";
   sprintf(fileNameComplet, "output/pngFiles/%s/%s", filename, filename);
 
-  char command[300]="";
+  char command[400]="";
   sprintf(command,"ffmpeg -r 1 -s 1920x1080 -i %s_%%1d.png -vcodec libx264 -crf 25 -y -loglevel quiet  %s.mp4",fileNameComplet,fileNameComplet);
   
   system(command);
@@ -140,5 +142,14 @@ void majDijkstra(int * F, int * D, int v, int k, int * indiceDansF) {
     indiceDansF[F[(i/2)+k]] = (i/2)+k;
 
     i = i/2;
+  }
+  if (D[F[(i/2)+k]] > D[F[i+k]]) {
+
+    c = F[i+k];
+    F[i+k] = F[(i/2)+k];
+    F[(i/2)+k] = c;
+
+    indiceDansF[F[i+k]] = i+k;
+    indiceDansF[F[(i/2)+k]] = (i/2)+k;
   }
 }
