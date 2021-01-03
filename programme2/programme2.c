@@ -1,4 +1,4 @@
-#include "../include/adjacence_list.h"
+#include "../include/programme2.h"
 #include "../include/check.h"
 #include <limits.h>
 #include <sys/stat.h>
@@ -234,16 +234,16 @@ int main(void)
   addEdge(g4, 7, 8, 45);
   showGraphPNG("graph4", g4);
 
-  T_graphLA *g1 = laToAdj("input/la/graph1.la");
+  T_graphLA *g1 = laToAdj("../input/la/graph1.la");
   showGraphPNG("graph1", g1);
 
-  T_graphLA *g2 = laToAdj("input/la/graph2.la");
+  T_graphLA *g2 = laToAdj("../input/la/graph2.la");
   showGraphPNG("graph2", g2);
 
-  T_graphLA *g3 = laToAdj("input/la/graph3.la");
+  T_graphLA *g3 = laToAdj("../input/la/graph3.la");
   showGraphPNG("graph3", g3);*/
 
-  //laToAdjFile("input/la/graph1_copy.la");
+  //laToAdjFile("../input/la/graph1_copy.la");
 
   return 0;
 }

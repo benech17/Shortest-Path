@@ -4,9 +4,11 @@ CIBLE=$(REP).exe
 SOURCE=$(REP).c
 CFLAGS=-Wall
 
-all: 
-	@echo "Le programme $(CIBLE) a été produit dans le répertoire $(REP)"
-	@echo -n "Production de $(CIBLE) \t"
+all: $(CIBLE)
+	@echo "Le programme $(CIBLE) a bien été produit dans le répertoire $(REP) \n"
+
+$(CIBLE): $(SOURCE)
+	@echo "Production de $(CIBLE) à partir du fichier $(SOURCE)"
 	gcc $(CFLAGS) $(SOURCE) -o $(CIBLE)
 
 clean: 
