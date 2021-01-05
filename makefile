@@ -14,5 +14,3 @@ $(CLEANTARGETS) :
 	@cd $(subst clean_,,$@); make clean
 
 clean: $(CLEANTARGETS)
-
-

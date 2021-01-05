@@ -3,7 +3,7 @@
 #include <string.h>
 #include <limits.h>
 
-#include "treatmentFiles.h"
+#include "../include/treatmentFiles.h"
 
 void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename);
 void showResult(int *D, int *Pred, int src, int dst);

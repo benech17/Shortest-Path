@@ -1,1 +1,1 @@
-programme1.c treatmentFiles.c treatmentFiles.h
+programme1.c treatmentFiles.c ../include/treatmentFiles.h
