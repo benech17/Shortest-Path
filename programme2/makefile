@@ -1,18 +1,15 @@
 PWD=$(shell pwd)
 REP=$(shell basename $(PWD))
+CIBLE=$(REP).exe
 SOURCE=$(REP).c
-CIBLE=$(SOURCE:.c=.o)
 CFLAGS=-Wall
 
-# makefile générique pour produire un code source 
-# dont le nom correspond au nom du répertoire qui le contient
-
 all: $(CIBLE)
-	@echo "Le programme $(CIBLE) a été produit dans le répertoire $(REP)"
+	@echo "Le programme $(CIBLE) a bien été produit dans le répertoire $(REP) \n"
 
-$(CIBLE) : adjacence_list.c
-	@echo "Production de $(CIBLE)"
-	gcc $(CFLAGS) $< -o $@
+$(CIBLE): $(SOURCE)
+	@echo "Production de $(CIBLE) à partir du fichier $(SOURCE)"
+	gcc $(CFLAGS) $(SOURCE) -o $(CIBLE)
 
 clean: 
 	@echo "Nettoyage de $(CIBLE)"

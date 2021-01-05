@@ -5,11 +5,10 @@ CIBLE=$(REP).exe
 CFLAGS=-Wall
 
 all: $(CIBLE)
-	@echo "Le programme $(CIBLE) a été produit dans le répertoire $(REP)"
+	@echo "Le programme $(CIBLE) a bien été produit dans le répertoire $(REP) \n"
 
 $(CIBLE) : $(SOURCES)
-	@echo Production de $(CIBLE)
-	@echo à partir des fichiers : $(SOURCES)
+	@echo Production de $(CIBLE)  à partir des fichiers : $(SOURCES)
 	gcc $(CFLAGS) $(SOURCES) -o $@
 
 clean: 
