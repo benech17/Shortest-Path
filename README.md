@@ -20,7 +20,6 @@ In order to test our code , we have makeFiles as you can just do , on the ~/Shor
 
 >make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
 
-
 ## How to execute
 In order to test our code , we have makeFiles as you can just do , on the ~/Shortest-Path/ :
 
@@ -37,7 +36,6 @@ In order to test our code , we have makeFiles as you can just do , on the ~/Shor
 >make clean_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme1.exe 
 
 >make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
-
 
 ## Programme 1
 To be completed
