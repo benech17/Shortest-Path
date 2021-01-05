@@ -212,7 +212,7 @@ int main(void)
   addEdge(g5, 1, 2, 2);
   addEdge(g5, 0, 1, 9);
 
-  //printGraph(g);
+  printGraph(g5);
   //writeDotGraph("graph.dot", g);
   showGraphPNG("graph5", g5);
 
@@ -242,6 +242,17 @@ int main(void)
 
   T_graphLA *g3 = matToAdj("input/adj/graph3.adj");
   showGraphPNG("graph3", g3);
+=======
+  T_graphLA *g1 = laToAdj("../input/la/graph1.la");
+  showGraphPNG("graph1", g1);
+
+  T_graphLA *g2 = laToAdj("../input/la/graph2.la");
+  showGraphPNG("graph2", g2);
+
+  T_graphLA *g3 = laToAdj("../input/la/graph3.la");
+  showGraphPNG("graph3", g3);*/
+
+  //laToAdjFile("../input/la/graph1_copy.la");
 
   return 0;
 }
