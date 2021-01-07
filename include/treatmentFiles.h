@@ -12,4 +12,11 @@ T_graphMD * newGraphMD(int);
 T_graphMD * readFile(char *);
 void createPNG(char *, T_graphMD *,int, int *,int);
 
+//programme1.c :
+
+void dijkstra(T_graphMD*, int*, int*, int*, int, char*);
+void showResult(int*, int*, int, int);
+void majDijkstra(int*, int*, int, int, int*);
+void compareItem(T_graphMD*, int*, int*, int, int);
+
 #endif 

@@ -5,9 +5,6 @@
 
 #include "../include/treatmentFiles.h"
 
-void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename);
-void showResult(int *D, int *Pred, int src, int dst);
-void majDijkstra(int *F, int *D, int v, int k, int *indiceDansF);
 
 int main(int argc, char **argv)
 {

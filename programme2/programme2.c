@@ -142,6 +142,9 @@ T_graphLA *matToAdj(const char *filename)
   {
     size++;
   }
+  fclose(fp_copy);
+
+
   T_graphLA *g = newGraphLA(size);
 
   while (fgets(line, 100, fp) != NULL)
@@ -180,6 +183,8 @@ T_graphLA *laToAdj(const char *filename)
   {
     size++;
   }
+  fclose(fp_copy);
+
   T_graphLA *g = newGraphLA(size);
 
   while (fgets(line, 100, fp) != NULL) //parcours les lignes du fichier fp
@@ -203,10 +208,6 @@ T_graphLA *laToAdj(const char *filename)
   return g;
 }
 
-
-
-
-
 void matTolist(const char *filename,const char *fichierdepart)
 {
   FILE *fp;
@@ -220,7 +221,7 @@ void matTolist(const char *filename,const char *fichierdepart)
   
   while (fgets(line, 100, dep) != NULL)
   {
-    fprintf(fp,"%d\t",ligne+1);
+    fprintf(fp,"%d\t",ligne);
     char *token = strtok(line, separators);
     while (token != NULL)
     {
@@ -236,6 +237,7 @@ void matTolist(const char *filename,const char *fichierdepart)
     column = 0;
   }
   fclose(fp);
+  fclose(dep);
 }
 
 void listTomat(const char *filename,const char *fichierdepart)
@@ -256,6 +258,8 @@ void listTomat(const char *filename,const char *fichierdepart)
   {
     size++;
   }
+  fclose(fp_copy);
+
  
   while (fgets(line, 100, dep) != NULL)
   {
@@ -284,6 +288,7 @@ void listTomat(const char *filename,const char *fichierdepart)
     ligne++;
     }
   fclose(fp);
+  fclose(dep);
 }     
 
 
@@ -326,12 +331,10 @@ int main(void)
 
   T_graphLA *g3 = matToAdj("input/adj/graph3.adj");
   showGraphPNG("graph3", g3);
-
-
   
-  //mattolist("output/la/graph1.la","input/adj/graph1.adj");
+  matTolist("output/graph2.la","input/adj/graph1.adj");
 
-  //listtomat("output/adj/graph1.adj","output/la/graph1.la");
+  listTomat("output/graph2.adj","input/la/graph3.la");
 
   return 0;
 }
