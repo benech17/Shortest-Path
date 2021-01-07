@@ -203,6 +203,90 @@ T_graphLA *laToAdj(const char *filename)
   return g;
 }
 
+
+
+
+
+void matTolist(const char *filename,const char *fichierdepart)
+{
+  FILE *fp;
+  FILE *dep;
+  CHECK_IF(fp = fopen(filename, "w"), NULL, "fopen arrivée");
+  CHECK_IF(dep = fopen(fichierdepart, "r"), NULL, "fopen départ");
+
+  int ligne = 0, column = 0;
+  const char *separators = "\t\n_";
+  char line[100];
+  
+  while (fgets(line, 100, dep) != NULL)
+  {
+    fprintf(fp,"%d\t",ligne+1);
+    char *token = strtok(line, separators);
+    while (token != NULL)
+    {
+      if (isNumber(token) == 1 && atoi(token) != 0 && token!=0)
+      {
+        fprintf(fp,"%d_%s\t",column,token);
+      }
+      token = strtok(NULL, separators);
+      column++;
+    }
+    fprintf(fp, "\n");
+    ligne++;
+    column = 0;
+  }
+  fclose(fp);
+}
+
+void listTomat(const char *filename,const char *fichierdepart)
+{
+  FILE *fp;
+  FILE *dep;
+  CHECK_IF(fp = fopen(filename, "w"), NULL, "fopen");
+  CHECK_IF(dep = fopen(fichierdepart, "r"), NULL, "fopen");
+
+  int ligne = 0, column = 0;
+  int size=0;
+  const char *separators = "\t\n_";
+  char line[100];
+  
+  FILE *fp_copy;
+  CHECK_IF(fp_copy = fopen(fichierdepart, "r"), NULL, "fopen");
+  while (fgets(line, 100, fp_copy) != NULL)
+  {
+    size++;
+  }
+ 
+  while (fgets(line, 100, dep) != NULL)
+  {
+    char *token = strtok(line, separators);
+    token = strtok(NULL, separators);
+
+    for(column=0;column<size;column++)
+    {   
+        if (token!=NULL && atoi(token)==column)
+          {
+            token = strtok(NULL, separators); //prendre le poids associé au sommet
+            fprintf(fp,"%d\t",atoi(token));
+            token = strtok(NULL, separators);
+          }
+      
+        else if(column==ligne)
+          {
+            fprintf(fp,"0\t");
+          }
+        else
+          {
+            fprintf(fp,"i\t");
+          } 
+      }
+    fprintf(fp,"\n");
+    ligne++;
+    }
+  fclose(fp);
+}     
+
+
 int main(void)
 {
   T_graphLA *g5 = newGraphLA(4);
@@ -244,7 +328,10 @@ int main(void)
   showGraphPNG("graph3", g3);
 
 
-  //laToAdjFile("../input/la/graph1_copy.la");
+  
+  //mattolist("output/la/graph1.la","input/adj/graph1.adj");
+
+  //listtomat("output/adj/graph1.adj","output/la/graph1.la");
 
   return 0;
 }

@@ -48,7 +48,7 @@ Puis
 > ./programme2.o 
 
 
-va créer les fichiers dot et png dans le dossier output/  à partir des listes d'adjacence des graphe construit dans le main du fichier `adjacence_list.c`
+va créer les fichiers dot et png dans le dossier output/  à partir des listes d'adjacence des graphe construit dans le main du fichier `programme2.c`
 ### Exemple 1
 Construction de la liste d'adjacence d'un  T_graphLA à partir de fichier **`.adj`** qui réprésente la liste sous forme matricielle
 ### Exemple 2
