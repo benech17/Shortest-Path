@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "treatmentFiles.h"
+#include "../include/treatmentFiles.h"
 
 void putColorNode(FILE * filePNG, char color) {
 

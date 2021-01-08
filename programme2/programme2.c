@@ -1,4 +1,4 @@
-#include "../include/adjacence_list.h"
+#include "../include/programme2.h"
 #include "../include/check.h"
 #include <limits.h>
 #include <sys/stat.h>
@@ -142,6 +142,9 @@ T_graphLA *matToAdj(const char *filename)
   {
     size++;
   }
+  fclose(fp_copy);
+
+
   T_graphLA *g = newGraphLA(size);
 
   while (fgets(line, 100, fp) != NULL)
@@ -180,6 +183,8 @@ T_graphLA *laToAdj(const char *filename)
   {
     size++;
   }
+  fclose(fp_copy);
+
   T_graphLA *g = newGraphLA(size);
 
   while (fgets(line, 100, fp) != NULL) //parcours les lignes du fichier fp
@@ -203,6 +208,90 @@ T_graphLA *laToAdj(const char *filename)
   return g;
 }
 
+void matTolist(const char *filename,const char *fichierdepart)
+{
+  FILE *fp;
+  FILE *dep;
+  CHECK_IF(fp = fopen(filename, "w"), NULL, "fopen arrivée");
+  CHECK_IF(dep = fopen(fichierdepart, "r"), NULL, "fopen départ");
+
+  int ligne = 0, column = 0;
+  const char *separators = "\t\n_";
+  char line[100];
+  
+  while (fgets(line, 100, dep) != NULL)
+  {
+    fprintf(fp,"%d\t",ligne);
+    char *token = strtok(line, separators);
+    while (token != NULL)
+    {
+      if (isNumber(token) == 1 && atoi(token) != 0 && token!=0)
+      {
+        fprintf(fp,"%d_%s\t",column,token);
+      }
+      token = strtok(NULL, separators);
+      column++;
+    }
+    fprintf(fp, "\n");
+    ligne++;
+    column = 0;
+  }
+  fclose(fp);
+  fclose(dep);
+}
+
+void listTomat(const char *filename,const char *fichierdepart)
+{
+  FILE *fp;
+  FILE *dep;
+  CHECK_IF(fp = fopen(filename, "w"), NULL, "fopen");
+  CHECK_IF(dep = fopen(fichierdepart, "r"), NULL, "fopen");
+
+  int ligne = 0, column = 0;
+  int size=0;
+  const char *separators = "\t\n_";
+  char line[100];
+  
+  FILE *fp_copy;
+  CHECK_IF(fp_copy = fopen(fichierdepart, "r"), NULL, "fopen");
+  while (fgets(line, 100, fp_copy) != NULL)
+  {
+    size++;
+  }
+  fclose(fp_copy);
+
+ 
+  while (fgets(line, 100, dep) != NULL)
+  {
+    char *token = strtok(line, separators);
+    token = strtok(NULL, separators);
+
+    for(column=0;column<size;column++)
+    {   
+        if (token!=NULL && atoi(token)==column)
+          {
+            token = strtok(NULL, separators); //prendre le poids associé au sommet
+            fprintf(fp,"%d\t",atoi(token));
+            token = strtok(NULL, separators);
+          }
+      
+        else if(column==ligne)
+          {
+            fprintf(fp,"0\t");
+          }
+        else
+          {
+            fprintf(fp,"i\t");
+          } 
+      }
+    fprintf(fp,"\n");
+    ligne++;
+    }
+  fclose(fp);
+  fclose(dep);
+}     
+
+
 int main(void)
 {
   T_graphLA *g5 = newGraphLA(4);
@@ -212,7 +301,7 @@ int main(void)
   addEdge(g5, 1, 2, 2);
   addEdge(g5, 0, 1, 9);
 
-  //printGraph(g);
+  //printGraph(g5);
   //writeDotGraph("graph.dot", g);
   showGraphPNG("graph5", g5);
 
@@ -234,14 +323,18 @@ int main(void)
   addEdge(g4, 7, 8, 45);
   showGraphPNG("graph4", g4);
 
-  T_graphLA *g1 = laToAdj("input/la/graph1.la");
+  T_graphLA *g1 = matToAdj("input/adj/graph1.adj");
   showGraphPNG("graph1", g1);
 
-  T_graphLA *g2 = laToAdj("input/la/graph2.la");
+  T_graphLA *g2 = matToAdj("input/adj/graph2.adj");
   showGraphPNG("graph2", g2);
 
-  T_graphLA *g3 = laToAdj("input/la/graph3.la");
+  T_graphLA *g3 = matToAdj("input/adj/graph3.adj");
   showGraphPNG("graph3", g3);
+  
+  matTolist("output/graph2.la","input/adj/graph1.adj");
+
+  listTomat("output/graph2.adj","input/la/graph3.la");
 
   return 0;
 }

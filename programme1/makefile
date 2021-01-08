@@ -4,15 +4,11 @@ SOURCES=$(shell cat makefile_sources)
 CIBLE=$(REP).exe
 CFLAGS=-Wall
 
-# makefile générique pour produire un code source 
-# dont le nom correspond au nom du répertoire qui le contient
-
 all: $(CIBLE)
-	@echo "Le programme $(CIBLE) a été produit dans le répertoire $(REP)"
+	@echo "Le programme $(CIBLE) a bien été produit dans le répertoire $(REP) \n"
 
 $(CIBLE) : $(SOURCES)
-	@echo -n "Production de $(CIBLE)"
-	@echo " à partir des fichiers : $(SOURCES)"
+	@echo Production de $(CIBLE)  à partir des fichiers : $(SOURCES)
 	gcc $(CFLAGS) $(SOURCES) -o $@
 
 clean: 
