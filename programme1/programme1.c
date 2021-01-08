@@ -3,6 +3,7 @@
 #include <string.h>
 #include <limits.h>
 
+
 #include "../include/treatmentFiles.h"
 
 
@@ -27,9 +28,7 @@ int main(int argc, char **argv)
   int i;
   for (i = 0; i < g->nbVertices; i++)
   {
-    D[i] = 0;
     T[i] = 0;
-    Pred[i] = 0;
   }
 
   char *filename = strtok(argv[1], ".");
@@ -51,16 +50,24 @@ int main(int argc, char **argv)
   {
     printf("This is impossible\n\n");
   }
+
+  free(D);
+  free(T);
+  free(Pred);
   return 0;
 }
 
-void showResult(int *D, int *Pred, int src, int dst)
-{
+void showResult(int *D, int *Pred, int src, int dst) {
 
   if (dst != src)
   {
-    showResult(D, Pred, src, Pred[dst]);
-    printf(" -> %d", dst);
+    if (Pred[dst] == -1) {
+      printf("\nLe chemin n'existe pas\n");
+    }
+    else {
+      showResult(D, Pred, src, Pred[dst]);
+      printf(" -> %d", dst);
+    }
   }
   else
     printf("%d", src);
