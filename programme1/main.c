@@ -22,6 +22,9 @@ int main(int argc, char ** argv) {
   T_graphMD * g = NULL;
   g = readFile(argv[1]);
 
+  if (g == NULL) 
+    return 0;
+
   int * D = (int *) malloc(g->nbVertices * sizeof(int));
   int * T = (int *) malloc(g->nbVertices * sizeof(int));
   int * Pred = (int *) malloc(g->nbVertices * sizeof(int));
@@ -49,7 +52,7 @@ int main(int argc, char ** argv) {
     printf("\n\n");
   }
   else 
-    printf("This is impossible\n\n");
+    printf("vous ne pouvez pas vous engager dans cette voie\n\n");
 
   return 0;
 }
@@ -73,8 +76,7 @@ void compareItem(T_graphMD * g, int * D, int * Pred, int x, int y) {
 }
 
 void courtChemie(T_graphMD * g, int * D, int * T, int * Pred, int sr, char * filename) {
-  int u;
-  int v;
+  int u, v;
   int i = 1;
   int k = 0;
   int F[g->nbVertices];

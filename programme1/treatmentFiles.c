@@ -120,7 +120,7 @@ T_graphMD * newGraphMD(int n) {
 
 T_graphMD * readFile(char * filename) {
 
-  T_graphMD * g;
+  T_graphMD * g = NULL;
 
   FILE * fileMatrix;
 
@@ -175,9 +175,8 @@ T_graphMD * readFile(char * filename) {
 
   }
   else {
-    printf("error\n\n");
+    printf("\n\t%s\n\tfichier non trouvé, veuillez essayer un autre nom\n\n", filename);
   }
-
 
   return g;
 }
