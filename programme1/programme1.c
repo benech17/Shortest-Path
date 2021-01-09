@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-
 #include "../include/treatmentFiles.h"
 
 
@@ -39,9 +38,7 @@ int main(int argc, char **argv)
   int i;
   for (i = 0; i < g->nbVertices; i++)
   {
-    D[i] = 0;
     T[i] = 0;
-    Pred[i] = 0;
   }
 
   char *filename = strtok(argv[1], ".");
@@ -80,8 +77,9 @@ int main(int argc, char **argv)
     }
   }
 
-  
-
+  free(D);
+  free(T);
+  free(Pred);
   return 0;
 }
 
@@ -156,8 +154,8 @@ void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
 
   // create a video of successive generated PNG files
   char fileNameComplet[150] = "";
-  sprintf(fileNameComplet, "output/pngFiles/%s/%s", filename, filename);
-
+  sprintf(fileNameComplet, "output/pngFiles/%s/%s_%d/%s", filename, filename, sr, filename);
+  
   char command[400] = "";
   sprintf(command, "ffmpeg -r 1 -s 1920x1080 -i %s_%%1d.png -vcodec libx264 -crf 25 -y -loglevel quiet  %s.mp4", fileNameComplet, fileNameComplet);
 

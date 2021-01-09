@@ -14,3 +14,7 @@ $(CIBLE): $(SOURCE)
 clean: 
 	@echo "Nettoyage de $(CIBLE)"
 	@rm -rf $(CIBLE)
+
+mrproper:
+	@echo "Suppression des fichiers output/"
+	@rm -rf output/*/*
