@@ -71,15 +71,6 @@ void showResult(int *D, int *Pred, int src, int dst) {
     printf("%d", src);
 }
 
-void compareItem(T_graphMD *g, int *D, int *Pred, int x, int y)
-{
-  if (D[x] + g->mat[x][y] < D[y])
-  {
-    D[y] = D[x] + g->mat[x][y];
-    Pred[y] = x;
-  }
-}
-
 void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
 {
   int u;
