@@ -15,3 +15,4 @@ $(CLEANTARGETS) :
 
 clean: $(CLEANTARGETS)
 
+mrproper: $(CLEANTARGETS)

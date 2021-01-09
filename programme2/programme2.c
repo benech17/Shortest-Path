@@ -1,5 +1,6 @@
 #include "../include/programme2.h"
 #include "../include/check.h"
+
 #include <limits.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -20,6 +21,7 @@ T_graphLA *newGraphLA(int n)
   }
   return g;
 }
+
 T_node *createNode(int value, int weight)
 {
   T_node *newNode = malloc(sizeof(T_node));
@@ -130,6 +132,7 @@ int isNumber(char *token)
   }
   return 1;
 }
+
 int checkExtension(char *extensionToHave, const char *filename)
 {
   char cp2[50];
@@ -144,6 +147,7 @@ int checkExtension(char *extensionToHave, const char *filename)
   }
   return 0;
 }
+
 T_graphLA *adjToGraph(const char *filename)
 {
   FILE *fp;
@@ -230,7 +234,7 @@ T_graphLA *laToGraph(const char *filename)
 
 void adjToLa(const char *fichierdepart)
 {
-  mkdir("output",0777);
+  mkdir("output", 0777);
   mkdir("output/la/", 0777);
   FILE *fp, *dep;
   checkExtension("adj", fichierdepart);
@@ -269,7 +273,7 @@ void adjToLa(const char *fichierdepart)
 
 void laToAdj(const char *fichierdepart)
 {
-  mkdir("output",0777);
+  mkdir("output", 0777);
   mkdir("output/adj/", 0777);
   FILE *fp, *dep;
   checkExtension("la", fichierdepart);
@@ -448,15 +452,15 @@ int main(int argc, char **argv)
   T_graphLA *g3 = adjToGraph("input/adj/graph3.adj");
   showGraphPNG("graph3", g3);
   
-  matTolist("output/graph2.la","input/adj/graph1.adj");*/
+  matTolist("output/graph2.la","input/adj/graph1.adj");
 
-  /*laToAdj("input/la/graph1.la");
+  laToAdj("input/la/graph1.la");
   laToAdj("input/la/graph2.la");
   laToAdj("input/la/graph3.la");
   
   adjToLa("input/adj/graph1.adj");
   adjToLa("input/adj/graph2.adj");
-  adjToLa("input/adj/graph3.adj");*/
+  adjToLa("input/adj/graph3.adj");
 
-  return 0;
+  return 0;*/
 }
