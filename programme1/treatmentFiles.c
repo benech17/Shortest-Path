@@ -28,7 +28,7 @@ void putHeader(FILE * filePNG){
 
 #ifdef DOT_PATH
 
-void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage) {
+void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int sr) {
   
   FILE * filePNG = NULL;
   
@@ -42,7 +42,11 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage) {
 
   mkdir(fileNameComplet, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
-  sprintf(fileNameComplet, "output/dotFiles/%s/%s_%d.dot", filename, filename, stage);
+  sprintf(fileNameComplet, "output/dotFiles/%s/%s_%d", filename, filename, sr);
+
+  mkdir(fileNameComplet, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+  sprintf(fileNameComplet, "output/dotFiles/%s/%s_%d/%s_%d.dot", filename, filename, sr, filename, stage);
   
   filePNG = fopen(fileNameComplet, "w+");
 
@@ -80,11 +84,15 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage) {
   fclose(filePNG);
 
   char directoryPNG[150] = "";
+
   sprintf(directoryPNG, "output/pngFiles/%s", filename);
+  mkdir(directoryPNG, 0777);
+  
+  sprintf(directoryPNG, "output/pngFiles/%s/%s_%d", filename, filename, sr);
   mkdir(directoryPNG, 0777);
 
   char comand[350] = "";
-  sprintf(comand, "dot %s -T png -o output/pngFiles/%s/%s_%d.png", fileNameComplet, filename, filename, stage);
+  sprintf(comand, "dot %s -T png -o output/pngFiles/%s/%s_%d/%s_%d.png", fileNameComplet, filename, filename, sr, filename, stage);
 
   system(comand);
 

@@ -1,0 +1,34 @@
+digraph graphe {
+rankdir = LR;
+edge [color=red];
+0 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+1 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+2 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+3 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+4 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+5 [fontname="Arial", shape = circle, color=green, style=filled];
+6 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+7 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+8 [fontname="Arial", shape = circle, color=lightblue, style=filled];
+	0 -> 1 [label = "5"];
+	0 -> 3 [label = "13"];
+	0 -> 5 [label = "20"];
+	1 -> 3 [label = "15"];
+	1 -> 4 [label = "7"];
+	1 -> 7 [label = "18"];
+	1 -> 8 [label = "11"];
+	2 -> 3 [label = "12"];
+	3 -> 0 [label = "11"];
+	3 -> 5 [label = "19"];
+	3 -> 6 [label = "16"];
+	4 -> 1 [label = "7"];
+	4 -> 8 [label = "16"];
+	5 -> 4 [label = "14"];
+	5 -> 7 [label = "12"];
+	6 -> 2 [label = "18"];
+	7 -> 5 [label = "20"];
+	8 -> 0 [label = "17"];
+	8 -> 1 [label = "22"];
+	8 -> 2 [label = "9"];
+	8 -> 6 [label = "21"];
+}

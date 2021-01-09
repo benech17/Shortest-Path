@@ -10,7 +10,7 @@ typedef struct {
 
 T_graphMD * newGraphMD(int);
 T_graphMD * readFile(char *);
-void createPNG(char *, T_graphMD *,int, int *,int);
+void createPNG(char *, T_graphMD *,int, int *,int, int);
 
 //programme1.c :
 

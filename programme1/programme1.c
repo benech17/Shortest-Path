@@ -8,17 +8,29 @@
 
 int main(int argc, char **argv)
 {
+
+  int sr, dst;
+  char * modifier = "\0";
+
   if (argc != 4)
   {
     printf("\n\t3 paramètres doivent être saisis\n\n");
     return 0;
   }
 
-  int sr = atoi(argv[2]);
-  int dst = atoi(argv[3]);
+  sr = atoi(argv[2]);
+  dst = atoi(argv[3]);
+
+  if (strcmp(argv[3], "-all") == 0) {
+    dst = 1;
+    modifier = argv[3];
+  }
 
   T_graphMD *g = NULL;
   g = readFile(argv[1]);
+
+  if (g == NULL)
+    return 0;
 
   int *D = (int *)malloc(g->nbVertices * sizeof(int));
   int *T = (int *)malloc(g->nbVertices * sizeof(int));
@@ -41,38 +53,52 @@ int main(int argc, char **argv)
 
   dijkstra(g, D, T, Pred, sr, filename);
 
-  if (dst < g->nbVertices)
+  if (strcmp(modifier, "-all") == 0) 
   {
-    printf("\n%d\n", D[dst]);
-    showResult(D, Pred, sr, dst);
-    printf("\n\n");
+    printf("\nTous les chemins à partir de %d\n", sr);
+
+    for (i = 0; i < g->nbVertices; i++)
+    {
+      printf("(%d) ", D[i]);
+      showResult(D, Pred, sr, i);
+      printf("\n");
+    }
+    
+    printf("\n");
   }
-  else
+  else 
   {
-    printf("This is impossible\n\n");
+    if (dst < g->nbVertices)
+    {
+      printf("\n%d\n", D[dst]);
+      showResult(D, Pred, sr, dst);
+      printf("\n\n");
+    }
+    else
+    {
+      printf("Ce chemin est impossible.\n\n");
+    }
   }
+
+  
+
   return 0;
 }
 
-void showResult(int *D, int *Pred, int src, int dst)
-{
+void showResult(int *D, int *Pred, int sr, int dst) {
 
-  if (dst != src)
+  if (dst != sr)
   {
-    showResult(D, Pred, src, Pred[dst]);
-    printf(" -> %d", dst);
+    if (Pred[dst] == -1) {
+      printf("Le chemin n'existe pas (%d -> .. -> %d)", sr, dst);
+    }
+    else {
+      showResult(D, Pred, sr, Pred[dst]);
+      printf(" -> %d", dst);
+    }
   }
   else
-    printf("%d", src);
-}
-
-void compareItem(T_graphMD *g, int *D, int *Pred, int x, int y)
-{
-  if (D[x] + g->mat[x][y] < D[y])
-  {
-    D[y] = D[x] + g->mat[x][y];
-    Pred[y] = x;
-  }
+    printf("%d", sr);
 }
 
 void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
@@ -108,7 +134,7 @@ void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
     if (D[u] != INT_MAX)
     {
       T[u] = 1;
-      createPNG(filename, g, u, T, k);
+      createPNG(filename, g, u, T, k, sr);
     }
     k++;
     if (D[u] != INT_MAX)
@@ -126,7 +152,7 @@ void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
     }
   }
 
-  createPNG(filename, g, -1, T, k);
+  createPNG(filename, g, -1, T, k, sr);
 
   // create a video of successive generated PNG files
   char fileNameComplet[150] = "";
