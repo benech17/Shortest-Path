@@ -234,8 +234,10 @@ T_graphLA *laToGraph(const char *filename)
 
 void adjToLa(const char *fichierdepart)
 {
-  mkdir("output", 0777);
-  mkdir("output/la/", 0777);
+  mkdir("output", 0777);  //creation des répertoires
+  mkdir("output/la/", 0777); 
+
+  //ouverture des fichiers 
   FILE *fp, *dep;
   checkExtension("adj", fichierdepart);
   CHECK_IF(dep = fopen(fichierdepart, "r"), NULL, "L'argument saisi ne semble mené vers aucun fichier ...");
@@ -250,17 +252,17 @@ void adjToLa(const char *fichierdepart)
   const char *separators = "\t\n_";
   char line[100];
 
-  while (fgets(line, 100, dep) != NULL)
+  while (fgets(line, 100, dep) != NULL)//parcourt les lignes de la matrice 
   {
-    fprintf(fp, "%d\t", ligne);
-    char *token = strtok(line, separators);
+    fprintf(fp, "%d\t", ligne); //écrit le numéro de la ligne 
+    char *token = strtok(line, separators); //recupère 1er elements de la logne
     while (token != NULL)
     {
-      if (isNumber(token) == 1 && atoi(token) != 0 && token != 0)
+      if (isNumber(token) == 1 && atoi(token) != 0 && token != 0)//si c'est le poids d'un arc
       {
-        fprintf(fp, "%d_%s\t", column, token);
+        fprintf(fp, "%d_%s\t", column, token);//écrit avec le format choisi
       }
-      token = strtok(NULL, separators);
+      token = strtok(NULL, separators);//prend le 2eme éléments
       column++;
     }
     fprintf(fp, "\n");
@@ -273,8 +275,10 @@ void adjToLa(const char *fichierdepart)
 
 void laToAdj(const char *fichierdepart)
 {
-  mkdir("output", 0777);
+  mkdir("output", 0777);   //creation des répertoires
   mkdir("output/adj/", 0777);
+
+   //ouverture des fichiers 
   FILE *fp, *dep;
   checkExtension("la", fichierdepart);
   CHECK_IF(dep = fopen(fichierdepart, "r"), NULL, "L'argument saisi ne semble mené vers aucun fichier ...");
@@ -287,36 +291,36 @@ void laToAdj(const char *fichierdepart)
 
   int ligne = 0, column = 0;
   int size = 0;
-  const char *separators = "\t\n_";
+  const char *separators = "\t\n_";//définition des séparateurs
   char line[100];
 
   FILE *fp_copy;
   CHECK_IF(fp_copy = fopen(fichierdepart, "r"), NULL, "fopen");
-  while (fgets(line, 100, fp_copy) != NULL)
+  while (fgets(line, 100, fp_copy) != NULL)//taille de la matrice
   {
     size++;
   }
   fclose(fp_copy);
 
-  while (fgets(line, 100, dep) != NULL)
+  while (fgets(line, 100, dep) != NULL)//parcourt des lignes
   {
-    char *token = strtok(line, separators);
-    token = strtok(NULL, separators);
+    char *token = strtok(line, separators);//récupère le 1ER élément qui est n° de la ligne
+    token = strtok(NULL, separators);// récupère le 2eme élément qui indique la présence d'un arc
 
-    for (column = 0; column < size; column++)
+    for (column = 0; column < size; column++) //création des colonnes 
     {
-      if (token != NULL && atoi(token) == column)
+      if (token != NULL && atoi(token) == column)//si un arc existe 
       {
         token = strtok(NULL, separators); //prendre le poids associé au sommet
         fprintf(fp, "%d\t", atoi(token));
         token = strtok(NULL, separators);
       }
 
-      else if (column == ligne)
+      else if (column == ligne)//si on est en diagonale
       {
         fprintf(fp, "0\t");
       }
-      else
+      else//si aucun arc existe
       {
         fprintf(fp, "i\t");
       }
