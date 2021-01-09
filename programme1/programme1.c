@@ -83,12 +83,13 @@ int main(int argc, char **argv)
   return 0;
 }
 
-void showResult(int *D, int *Pred, int sr, int dst) {
+void showResult(int *D, int *Pred, int sr, int dst)
+{
 
   if (dst != sr)
   {
-    if (Pred[dst] == -1) {
-      printf("Le chemin n'existe pas (%d -> .. -> %d)", sr, dst);
+    if (Pred[dst] == -1) {   //Si la valeur reste celle de l'initialisation
+      printf("Le chemin n'existe pas (%d -> .. -> %d)", sr, dst); //Il n'y a pas de chemin
     }
     else {
       showResult(D, Pred, sr, Pred[dst]);
@@ -101,16 +102,20 @@ void showResult(int *D, int *Pred, int sr, int dst) {
 
 void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
 {
+
+  //Modifie les tableaux D et Pred pour obtenir le plus court chemin entre sr et les différents
+  //sommets du graphe g en appliquant l'algorithme de Dijkstra
+
   int u;
   int v;
-  int i = 1;
-  int k = 0;
-  int F[g->nbVertices];
-  int indiceDansF[g->nbVertices];
+  int i = 1;                      //Indice indiquant le nombre de sommet initialisé (hors source)
+  int k = 0;                      //Indice indiquant le nombre de sommet traité
+  int F[g->nbVertices];           //Création de la file de priorité
+  int indiceDansF[g->nbVertices]; //Tableau tel que F[indiceDansF[u]] = u
 
-  for (u = 0; u < g->nbVertices; u++)
+  for (u = 0; u < g->nbVertices; u++) //Initialisation de D et Pred
   {
-    Pred[u] = -1;
+    Pred[u] = -1;                     //Valeur négative pour ne pas confondre avec un sommet existant
     if (u == sr)
     {
       D[u] = 0;
@@ -128,29 +133,29 @@ void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
 
   while (k < g->nbVertices)
   {
-    u = F[k];
-    if (D[u] != INT_MAX)
+    u = F[k];  //On récupère le premier sommet de la file de priorité (on a déjà traité les k premiers)
+    if (D[u] != INT_MAX)  //Si le sommet a bien été atteint lors des itérations précédentes
     {
       T[u] = 1;
-      createPNG(filename, g, u, T, k, sr);
+      createPNG(filename, g, u, T, k, sr);      //Création du PNG pour cette étape
     }
-    k++;
+    k++;                                        //Incrémentation du nombre de sommet traité
     if (D[u] != INT_MAX)
     {
-      for (v = 0; v < g->nbVertices; v++)
+      for (v = 0; v < g->nbVertices; v++)       //Pour chaque sommet
       {
         if ((v != u) && (g->mat[u][v] != INT_MAX) && (D[v] > D[u] + g->mat[u][v]))
-        {
+        {   //S'il est voisin du sommet courant et que le chemin par le sommet courant est plus court
 
-          D[v] = D[u] + g->mat[u][v];
+          D[v] = D[u] + g->mat[u][v];           //On obtient un nouveau chemin
           Pred[v] = u;
-          majDijkstra(F, D, v, k, indiceDansF);
+          majDijkstra(F, D, v, k, indiceDansF); //On s'assure que la file de priorité est à jour
         }
       }
     }
   }
 
-  createPNG(filename, g, -1, T, k, sr);
+  createPNG(filename, g, -1, T, k, sr); //Création du PNG final
 
   // create a video of successive generated PNG files
   char fileNameComplet[150] = "";
@@ -164,22 +169,25 @@ void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr, char *filename)
 
 void majDijkstra(int *F, int *D, int v, int k, int *indiceDansF)
 {
-  int i = indiceDansF[v] - k;
-  int c;
-  while (((i / 2) >= 1) && (D[F[(i / 2) + k]] > D[F[i + k]]))
-  {
+  //Met à jour la file de priorité F lorsqu'une nouvelle distance plus courte pour atteindre le
+  //sommet v a été trouvée
+
+  int i = indiceDansF[v] - k;   //On récupère l'indice de v dans F, et on prend en compte le décalage
+  int c;                        //dû aux sommets déjà traités
+  while (((i / 2) >= 1) && (D[F[(i / 2) + k]] > D[F[i + k]]))   //Tant que le sommet d'indice i/2 est à
+  {                                                             //une distance de sr plus importante
 
     c = F[i + k];
-    F[i + k] = F[(i / 2) + k];
+    F[i + k] = F[(i / 2) + k];  //On échange les deux sommets dans la file
     F[(i / 2) + k] = c;
 
-    indiceDansF[F[i + k]] = i + k;
+    indiceDansF[F[i + k]] = i + k;    //On remet à jour le tableaux des indices
     indiceDansF[F[(i / 2) + k]] = (i / 2) + k;
 
     i = i / 2;
   }
-  if (D[F[(i / 2) + k]] > D[F[i + k]])
-  {
+  if (D[F[(i / 2) + k]] > D[F[i + k]])  //Dernière itération pour le cas où le premier élément
+  {                                     //a une distance à sr plus importante
 
     c = F[i + k];
     F[i + k] = F[(i / 2) + k];
