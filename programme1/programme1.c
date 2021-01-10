@@ -11,49 +11,65 @@ int main(int argc, char **argv)
   int sr, dst;
   char * modifier = "\0";
 
+  //d'abord, le nombre de paramètres est vérifié
   if (argc != 4)
   {
     printf("\n\t3 paramètres doivent être saisis\n\n");
     return 0;
   }
 
+  //les sommets source et destination sont attribués
   sr = atoi(argv[2]);
   dst = atoi(argv[3]);
 
+  //si au lieu d'une destination, le paramètre -all a été défini, 
+  //il n'y a pas de nœud de destination
   if (strcmp(argv[3], "-all") == 0) {
     dst = 1;
     modifier = argv[3];
   }
 
+  //A ce moment, le code appelle la fonction 
+  //readFile qui lira le fichier .adj passé par paramètre
   T_graphMD *g = NULL;
   g = readFile(argv[1]);
 
+  //s'il n'existe pas, le code est finalisé
   if (g == NULL)
     return 0;
 
+  //Les vecteurs D, T, Pred sont initialisés
   int *D = (int *)malloc(g->nbVertices * sizeof(int));
   int *T = (int *)malloc(g->nbVertices * sizeof(int));
   int *Pred = (int *)malloc(g->nbVertices * sizeof(int));
 
+  //Dans un premier temps, le vecteur T est remis à zéro
   int i;
   for (i = 0; i < g->nbVertices; i++)
   {
     T[i] = 0;
   }
 
+  //puisque l'extension du fichier n'est pas importante, 
+  //la fonction strtok coupera la String dès qu'elle trouvera le caractère '.'
   char *filename = strtok(argv[1], ".");
 
+  //l'idée des lignes suivantes est de supprimer le texte initial "input/" de la String
   for (i = 6; filename[i] != '\0'; i++)
     filename[i - 6] = filename[i];
 
   filename[i - 6] = '\0';
 
+  //À ce stade, le code appelle la fonction principale qui trouvera les meilleurs 
+  //chemins vers tous les sommets à partir d'une source
   dijkstra(g, D, T, Pred, sr, filename);
 
+  //si le paramètre a été défini, tous les chemins résultants seront affichés 
   if (strcmp(modifier, "-all") == 0) 
   {
     printf("\nTous les chemins à partir de %d\n", sr);
 
+    //dans cette boucle, la fonction showResult sera appelée pour chaque sommet de la matrice
     for (i = 0; i < g->nbVertices; i++)
     {
       printf("(%d) ", D[i]);
@@ -65,6 +81,7 @@ int main(int argc, char **argv)
   }
   else 
   {
+    //dans ce cas, la fonction showResult ne sera appelée qu'une seule fois
     if (dst < g->nbVertices)
     {
       printf("\n%d\n", D[dst]);
@@ -73,13 +90,16 @@ int main(int argc, char **argv)
     }
     else
     {
+      //si la destination n'est pas un sommet de matrice
       printf("Ce chemin est impossible.\n\n");
     }
   }
 
+  //tous les vecteurs auxiliaires sont vidés
   free(D);
   free(T);
   free(Pred);
+  free(g); 
   return 0;
 }
 

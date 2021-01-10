@@ -6,6 +6,8 @@
 #include "dijkstra.h"
 #include "../include/traces.h"
 
+//Cette fonction est la même que pour le code 1
+
 void dijkstra(T_graphMD *g, int *D, int *T, int *Pred, int sr)
 {
   int u;
@@ -105,23 +107,25 @@ T_graphMD * newGraphMD(int n) {
   return g;
 }
 
-#ifdef SHOW_RESULT_PROGRAMME1
+//Fonctions qui effacent l'écran si des constantes sont définies
+
+#ifdef SHOW_RESULT_PROGRAM1
 void showProgramme1(int i){ }
 #else
 void showProgramme1(int i){
 
-  CLRSCR();
+  CLRSCR(); //effacent l'écran
   printf("\nexécution du programme 1 avec %d nodes\n\n", i);
 
 }
 #endif
 
-#ifdef SHOW_RESULT_PROGRAMME2
+#ifdef SHOW_RESULT_PROGRAM2
 void showProgramme2(int i){ }
 #else
 void showProgramme2(int i){
 
-  CLRSCR();
+  CLRSCR(); //effacent l'écran
   printf("\nexécution du programme 1 avec %d nodes\n\n", i);
   printf("--------------------------------------------------\n");
   printf("\nexécution du programme 2 avec %d nodes\n\n", i);

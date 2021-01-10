@@ -7,8 +7,8 @@
 #define MAX_TESTS 8
 #define MAX_majDijkstra 400
 
-#define SHOW_RESULT_PROGRAMME1
-#define SHOW_RESULT_PROGRAMME2
+#define SHOW_RESULT_PROGRAM1
+#define SHOW_RESULT_PROGRAM2
 
 typedef struct {
   unsigned int nbVertices;
