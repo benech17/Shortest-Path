@@ -1,6 +1,6 @@
 PWD=$(shell pwd)
 REP=$(shell basename $(PWD))
-SOURCES=main.c
+SOURCES=main.c dijkstra.c dijkstra.h
 CIBLE=$(REP).exe
 CFLAGS=-Wall
 

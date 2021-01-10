@@ -38,6 +38,9 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int
 
   char fileNameComplet[150] = "";
 
+  mkdir("output/dotFiles", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+  mkdir("output/pngFiles", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
   sprintf(fileNameComplet, "output/dotFiles/%s", filename);
 
   mkdir(fileNameComplet, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
@@ -51,6 +54,16 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int
   filePNG = fopen(fileNameComplet, "w+");
 
   putHeader(filePNG);
+
+  for (i = 0; i < g->nbVertices; i++) {
+
+    for (j = 0; j < g->nbVertices; j++) {
+      if (g->mat[i][j] != INT_MAX && i != j) {
+        sprintf(number, "\t%d -> %d [label = \"%d\"];\n", i, j, g->mat[i][j]);
+        fputs(number, filePNG);
+      }
+    }
+  }
 
   for (i = 0; i < g->nbVertices; i++) {
     number[0] = '\0';
@@ -69,15 +82,6 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int
     }
   }
 
-  for (i = 0; i < g->nbVertices; i++) {
-
-    for (j = 0; j < g->nbVertices; j++) {
-      if (g->mat[i][j] != INT_MAX && i != j) {
-        sprintf(number, "\t%d -> %d [label = \"%d\"];\n", i, j, g->mat[i][j]);
-        fputs(number, filePNG);
-      }
-    }
-  }
 
   fputs("}", filePNG);
 
