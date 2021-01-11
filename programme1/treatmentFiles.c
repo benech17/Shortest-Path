@@ -44,7 +44,7 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int
   char fileNameComplet[150] = "";
 
   //d'abord, les dossiers sont créés
-
+  mkdir("output",0777);
   mkdir("output/dotFiles", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
   mkdir("output/pngFiles", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 

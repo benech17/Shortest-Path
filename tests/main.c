@@ -202,7 +202,8 @@ void createAdjFile(char * filename, int length, int matrix[length][length]) {
 
   int i, j;
   FILE * fileAdj = NULL;
-
+  mkdir("output",0777);
+  mkdir("input",0777);
   fileAdj = fopen(filename, "w+");
 
   //L'idée est essentiellement de passer par tous les points de la matrice, 

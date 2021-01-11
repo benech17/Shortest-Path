@@ -62,7 +62,7 @@ Also,the distance and the path between the nodes 0 and 7 will be displayed on th
 
 >./programme1.exe input/graph1.adj 0 -all
 
-similarly to the previous example, the code will go the same files, however the program will display all possible paths from the start node 0
+similarly to the previous example, the code will produce the same files however the program will display all possible paths from the start node 0
 
 ## Programme 2
 on the  ~/programme2/ repertory : 
