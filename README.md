@@ -7,56 +7,92 @@ Make sure to have the ffmpeg library before compiling , we use it to produce vid
 In order to test our code , we have makeFiles as you can just do , on the ~/Shortest-Path/ :
 
 ### Execution : 
->make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced both programme1.exe and programme2.exe
+>make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced programme1.exe, programme2.exe, tests.exe
 
 >make programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only programme1.exe 
 
 >make programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only programme2.exe 
 
-### Cleaning :
->make clean   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean both  programme1.exe and programme2.exe
-
->make clean_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme1.exe 
-
->make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
-
-## How to execute
-In order to test our code , we have makeFiles as you can just do , on the ~/Shortest-Path/ :
-
-### Execution : 
->make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced both programme1.exe and programme2.exe
-
->make programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only programme1.exe 
-
->make programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only programme2.exe 
+>make tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only tests.exe
 
 ### Cleaning :
->make clean   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean both  programme1.exe and programme2.exe
+>make clean   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean  programme1.exe, programme2.exe, tests.exe
 
 >make clean_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme1.exe 
 
 >make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
 
 ## Programme 1
-To be completed
+Dans le repertoire ~/programme1/ :
+
+> make
+
+Puis
+
+> ./programme1.exe --filename --source --destination
+
+where:
+
+--filename: represents the location of the .adj file
+--source: represents the initial node
+--destination: represents the node of destination
+
+it will create .dot files and .png files in the output/filename/ directory, where filename is the name of the file placed in the input.
+You can also change the definition of the DOT_PATH constant by commenting on line 4 of the file ../include/treatmentFiles.h. that way, the program will only display the result of the path, without creating any file.
+
+### Exemple 1
+
+>./programme1.exe input/graph1.adj 0 7
+
+the program will create 9 dot files and 9 png files in the output/dotFiles/graph1 and output/pngFiles/graph1 directories. Containing the information of all the stages to find the path of all the nodes, as will be displayed by the terminal the distance and the path between the nodes 0 and 7.
+
+### Exemple 2
+
+>./programme1.exe input/graph1.adj 0 -all
+
+similarly to the previous example, the code will go the same files, however the program will display all possible paths from the start node 0
+
 ## Programme 2
 Dans le repertoire ~/programme2/ : 
 > make 
 
 Puis 
 
-> ./programme2.o 
+> ./programme2.exe --out --in --filename
 
+Where:
 
-va créer les fichiers dot et png dans le dossier output/  à partir des listes d'adjacence des graphe construit dans le main du fichier `programme2.c`
+--filename: represents the location of the .adj file
+--out: represents the output format, there are 3 possible -dot, -adj, -la
+--in: represents the initial file format, there are 2 possibilities: -a, -l
+
 ### Exemple 1
-Construction de la liste d'adjacence d'un  T_graphLA à partir de fichier **`.adj`** qui réprésente la liste sous forme matricielle
+
+>./programme2.exe -la -a input/adj/graph1.adj
+
+In this case, the program will create the output/la/graph1.la file containing the information from the input/adj/graph1.adj . but in the adjacent list format
+
 ### Exemple 2
-Construction de la liste d'adjacence d'un  T_graphLA à partir de fichier **`.la`** qui réprésente la liste sous forme de listes d'adjacence dans un format que nous avons défini, soit : 
-```
-0    1_15    
-src  dest_weight dest_weight dest_weight 
-src  dest_weight dest_weight
-.....
-```
-Où chaque ligne représente la liste d'adjacence du sommet src.
+
+>./programme2.exe -adj -l input/la/graph1.la
+
+In this case, the program will create the output/adj/graph1.adj file containing the information from the input/la/graph1.la . but in the adjacent matrix format
+
+### Exemple 3
+
+>./programme2.exe -dot -l input/la/graph1.la
+
+In this case, the program will create the output/dot/graph1.dot file and output/png/graph1.png containing the information from the input/la/graph1.la . but in .dot format and the visual file.
+
+## Tests
+Dans le repertoir ~/tests/ :
+
+> make
+
+Puis
+
+> ./tests
+
+By doing this code, the program will display a sequence of results obtained from calls from program 1 and program 2, from randomly generated .adj files.
+During the tests, .adj files will be generated in the input/ folder. And since programs 1 and 2 will be used, the files generated by both programs will be stored in the output folder, where you can see all types and files generated from the files belonging to the input/
+After performing a certain amount of testing, the program will do a mass test using only the dijkstra code, making it process matrix up to 400 nodes. The durations of this process are then stored, and later used to create a .png file, in the output/graphic/
