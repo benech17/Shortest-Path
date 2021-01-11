@@ -144,7 +144,7 @@ void plotGraphic(clock_t timesMajDijkstra[]){
   if (fp != NULL)
   {
     fprintf(fp, "#+--------+----------------+\n");
-    fprintf(fp, "#| Taille | Durátion (ms)  |\n");
+    fprintf(fp, "#| Taille | Durée (ms)  |\n");
     fprintf(fp, "#+--------+----------------+\n");
 
     for (i = 0; i < MAX_majDijkstra; i++)
@@ -158,7 +158,7 @@ void plotGraphic(clock_t timesMajDijkstra[]){
   }
   else 
   {
-    printf("\nle archive de données n'a pas pu être créé\n\n");
+    printf("\nL'archive de données n'a pas pu être créé\n\n");
   }
 
   fp = (FILE * )fopen("output/graphic/dijkstra.plt", "w+");
@@ -184,7 +184,7 @@ void plotGraphic(clock_t timesMajDijkstra[]){
   }
   else
   {
-    printf("\nle archive de plot n'a pas pu être créé\n\n");
+    printf("\nL'archive de plot n'a pas pu être créé\n\n");
   }
   
   //enfin, le code qui va générer le graphique à partir des données 
