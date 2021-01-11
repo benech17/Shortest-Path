@@ -1,19 +1,21 @@
 # Shortest-Path
 ## Requirements 
-Make sure to have the ffmpeg library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
+Make sure to have the ffmpeg library and the graphviz library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
 
 >sudo apt-get install ffmpeg  
+>sudo apt install graphviz 
+
 ## How to execute
 In order to test our code , we have makeFiles as you can just do , on the ~/Shortest-Path/ :
 
 ### Execution : 
->make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced programme1.exe, programme2.exe, tests.exe
+>make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce programme1.exe, programme2.exe, tests.exe
 
->make programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only programme1.exe 
+>make programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce only programme1.exe 
 
->make programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only programme2.exe 
+>make programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce only programme2.exe 
 
->make tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produced only tests.exe
+>make tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce only tests.exe
 
 ### Cleaning :
 >make clean   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean  programme1.exe, programme2.exe, tests.exe
@@ -22,20 +24,29 @@ In order to test our code , we have makeFiles as you can just do , on the ~/Shor
 
 >make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
 
+### Cleaning output : 
+>make mrproper   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean  #To clean all the ouputs files on every folders
+
+>make mrproper_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme1/ folder
+
+>make mrproper_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme2/ folder
+
+### Although we can compile everything from ~/Shortest-Path/, we recommend to run from each directory, where the commands make,make clean or make mrproper are equivalent to previous ones, but will affect only the current directory.
+
 ## Programme 1
-Dans le repertoire ~/programme1/ :
+In the ~/programme1/ repertory :
 
-> make
+> make   
 
-Puis
+Then
 
 > ./programme1.exe --filename --source --destination
 
 where:
 
---filename: represents the location of the .adj file
---source: represents the initial node
---destination: represents the node of destination
+--filename: represents the location of the .adj file <br>
+--source: represents the initial node <br>
+--destination: represents the node of destination <br>
 
 it will create .dot files and .png files in the output/filename/ directory, where filename is the name of the file placed in the input.
 You can also change the definition of the DOT_PATH constant by commenting on line 4 of the file ../include/treatmentFiles.h. that way, the program will only display the result of the path, without creating any file.
@@ -44,7 +55,8 @@ You can also change the definition of the DOT_PATH constant by commenting on lin
 
 >./programme1.exe input/graph1.adj 0 7
 
-the program will create 9 dot files and 9 png files in the output/dotFiles/graph1 and output/pngFiles/graph1 directories. Containing the information of all the stages to find the path of all the nodes, as will be displayed by the terminal the distance and the path between the nodes 0 and 7.
+if DOT_PATH is defined, the program will create 9 dot files and 9 png files in the output/dotFiles/graph1 and output/pngFiles/graph1 directories. Containing the information of all the stages to find the path of all the node. <br>
+Also,the distance and the path between the nodes 0 and 7 will be displayed on the terminal.
 
 ### Exemple 2
 
@@ -53,36 +65,39 @@ the program will create 9 dot files and 9 png files in the output/dotFiles/graph
 similarly to the previous example, the code will go the same files, however the program will display all possible paths from the start node 0
 
 ## Programme 2
-Dans le repertoire ~/programme2/ : 
+on the  ~/programme2/ repertory : 
 > make 
-
-Puis 
-
+Then
 > ./programme2.exe --out --in --filename
 
 Where:
 
---filename: represents the location of the .adj file
---out: represents the output format, there are 3 possible -dot, -adj, -la
---in: represents the initial file format, there are 2 possibilities: -a, -l
-
+--filename: represents the location of the .adj file <br>
+--out: represents the output format, there are 3 possibilities : -dot, -adj, -la <br>
+--in: represents the initial file format, there are 2 possibilities: -a, -l <br>
 ### Exemple 1
+
+>./programme2.exe -dot -a input/adj/graph1.adj
+
+In this case, the program will create the output/dot/graph1.dot file and output/png/graph1.png containing the information of the graph from the input/adj/graph1.adj 
+### Exemple 2
+
+>./programme2.exe -dot -l input/la/graph1.la
+
+In this case, the program will create the output/dot/graph1.dot file and output/png/graph1.png containing the information of the graph from the input/la/graph1.la 
+
+### Exemple 3
 
 >./programme2.exe -la -a input/adj/graph1.adj
 
 In this case, the program will create the output/la/graph1.la file containing the information from the input/adj/graph1.adj . but in the adjacent list format
 
-### Exemple 2
+### Exemple 4
 
 >./programme2.exe -adj -l input/la/graph1.la
 
 In this case, the program will create the output/adj/graph1.adj file containing the information from the input/la/graph1.la . but in the adjacent matrix format
 
-### Exemple 3
-
->./programme2.exe -dot -l input/la/graph1.la
-
-In this case, the program will create the output/dot/graph1.dot file and output/png/graph1.png containing the information from the input/la/graph1.la . but in .dot format and the visual file.
 
 ## Tests
 Dans le repertoir ~/tests/ :
