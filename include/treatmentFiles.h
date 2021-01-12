@@ -18,5 +18,6 @@ void dijkstra(T_graphMD*, int*, int*, int*, int, char*);
 void showResult(int*, int*, int, int);
 void majDijkstra(int*, int*, int, int, int*);
 void compareItem(T_graphMD*, int*, int*, int, int);
+int isNumber(char *);
 
 #endif 

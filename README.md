@@ -31,7 +31,7 @@ In order to test our code , we have makeFiles as you can just do , on the ~/Shor
 
 >make mrproper_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme2/ folder
 
-### Although we can compile everything from ~/Shortest-Path/, we recommend to run from each directory, where the commands make,make clean or make mrproper are equivalent to previous ones, but will affect only the current directory.
+### Although we can compile everything from ~/Shortest-Path/, please run from each directory, where the commands make,make clean or make mrproper are equivalent to previous ones, but will affect only the current directory.
 
 ## Programme 1
 In the ~/programme1/ repertory :
