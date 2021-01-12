@@ -1,4 +1,7 @@
 # Shortest-Path
+
+Code réalisé par Paulin AVRIL, João Lucas SANTOS PENHA DE OLIVEIRA, Yaniv BENICHOU et Guillaume BAUDIN DE LA VALETTE
+
 ## Requirements 
 Make sure to have the ffmpeg library and the graphviz library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
 
