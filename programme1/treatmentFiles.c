@@ -125,7 +125,7 @@ void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int
 
 #else
 
-void createPNG(char * filename, T_graphMD * g, int node, int * T) {
+void createPNG(char * filename, T_graphMD * g, int node, int * T, int stage, int sr) {
 
 }
 

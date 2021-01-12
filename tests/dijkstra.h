@@ -4,7 +4,7 @@
 #ifndef dijkstra_h
 #define dijkstra_h
 
-#define MAX_TESTS 8
+#define MAX_TESTS 10
 #define MAX_majDijkstra 400
 
 #define SHOW_RESULT_PROGRAM1

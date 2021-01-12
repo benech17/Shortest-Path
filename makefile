@@ -1,4 +1,4 @@
-TARGETS=$(shell ls -d programme*)
+TARGETS=$(shell ls -d programme* tests)
 CLEANTARGETS=$(foreach dir,$(TARGETS),clean_$(dir))
 MRPROPERTARGETS=$(foreach dir,$(TARGETS),mrproper_$(dir))
 MAKEFLAGS += --no-print-directory
