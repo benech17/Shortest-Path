@@ -27,12 +27,16 @@ In order to test our code , we have makeFiles as you can just do , on the ~/Shor
 
 >make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
 
+>make clean_tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only tests.exe
+
 ### Cleaning output : 
->make mrproper   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean  #To clean all the ouputs files on every folders
+>make mrproper   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on every folders
 
 >make mrproper_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme1/ folder
 
 >make mrproper_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme2/ folder
+
+>make mrpropoer_tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the outputs files on programm2/ folder
 
 ### Although we can compile everything from ~/Shortest-Path/, please run from each directory, where the commands make,make clean or make mrproper are equivalent to previous ones, but will affect only the current directory.
 
