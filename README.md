@@ -5,7 +5,7 @@ Code réalisé par Paulin AVRIL, João Lucas SANTOS PENHA DE OLIVEIRA, Yaniv BEN
 The complexity of our algorithm is **0((|A|+|S|)*log(|S|))** where |S| is the number of vertices and |A| the number of edges. <br>
 This code will produce PNG files of Graphs, the trace of the algorithm in a graph , and will test the algorithm on various Graph size (until 400 elements) with random values. <br>
 
-![experimental complexity](complexite_experimental.jpeg) 
+![experimental complexity](livrable/complexite_experimental.jpeg) 
 ## Requirements 
 Make sure to have the [ffmpeg](https://ffmpeg.org/) library and the [graphviz](https://graphviz.org/) library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
 ``` bash
