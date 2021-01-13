@@ -1,44 +1,29 @@
-# Shortest-Path
+# Shortest-Path : Implementation of Dijkstra in Graph represented by list of adjacency or matrix files
 
 Code réalisé par Paulin AVRIL, João Lucas SANTOS PENHA DE OLIVEIRA, Yaniv BENICHOU et Guillaume BAUDIN DE LA VALETTE
 
-## Requirements 
-Make sure to have the ffmpeg library and the graphviz library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
+The complexity of our algorithm is **0((|A|+|S|)*log(|S|))** where |S| is the number of vertices and |A| the number of edges. <br>
+This code will produce PNG files of Graphs, the trace of the algorithm in a graph , and will test the algorithm on various Graph size (until 400 elements) with random values. <br>
 
->sudo apt-get install ffmpeg  
->sudo apt install graphviz 
+![experimental complexity](complexite_experimental.jpeg) 
+## Requirements 
+Make sure to have the [ffmpeg](https://ffmpeg.org/) library and the [graphviz](https://graphviz.org/) library before compiling , we use it to produce videos from generated PNG files by Dijkstra Algorithm. 
+``` bash
+sudo apt-get install ffmpeg  
+sudo apt install graphviz 
+```
 
 ## How to execute
-In order to test our code , we have makeFiles as you can just do , on the ~/Shortest-Path/ :
+In order to test our code , we have makeFiles as you can just do , on the ~/Shortest-Path/ repertory : <br>
+Makefile commands : 
 
-### Execution : 
->make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce programme1.exe, programme2.exe, tests.exe
+> make   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#To produce the executable 
 
->make programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce only programme1.exe 
+> make clean   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#To remove executables files
 
->make programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce only programme2.exe 
+> make mrproper   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#To remove the generated files in the ouput/ folder
 
->make tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To produce only tests.exe
-
-### Cleaning :
->make clean   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean  programme1.exe, programme2.exe, tests.exe
-
->make clean_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme1.exe 
-
->make clean_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only  programme2.exe 
-
->make clean_tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean only tests.exe
-
-### Cleaning output : 
->make mrproper   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on every folders
-
->make mrproper_programme1   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme1/ folder
-
->make mrproper_programme2   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the ouputs files on programme2/ folder
-
->make mrpropoer_tests   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #To clean all the outputs files on programm2/ folder
-
-### Although we can compile everything from ~/Shortest-Path/, please run from each directory, where the commands make,make clean or make mrproper are equivalent to previous ones, but will affect only the current directory.
+Theses commands can be executed on the ~/Shortest-Path/ repertory to affect every folders in one command or you can executed them only in a specific foloder if you want to affect only this folder.
 
 ## Programme 1
 In the ~/programme1/ repertory :
