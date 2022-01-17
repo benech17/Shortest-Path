@@ -11,6 +11,7 @@
     {
       if (!isdigit(token[i]))
       {
+       printf("");
         return 0;
       }
     }
